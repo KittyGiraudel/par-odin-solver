@@ -7,6 +7,7 @@ import {
   isWhite,
   resolveSymbol,
   sortDesc,
+  sum,
 } from './utils.ts'
 
 export const HERO = 'HERO'
@@ -19,6 +20,7 @@ export const WOLF = 'WOLF'
 export const SNAKE = 'SNAKE'
 export const HORSE = 'HORSE'
 export const DRAGON = 'DRAGON'
+export const BOAR = 'BOAR'
 export const SYMBOL_TYPES = [
   HERO,
   CAPTAIN,
@@ -30,6 +32,7 @@ export const SYMBOL_TYPES = [
   SNAKE,
   HORSE,
   DRAGON,
+  BOAR,
 ] as const
 
 export const SYMBOLS: SymbolsMap = {
@@ -108,5 +111,16 @@ export const SYMBOLS: SymbolsMap = {
     type: 'BLACK',
     value: symbols => symbols.filter(isWhite).length * -1,
     color: chalk.bgRed,
+  },
+  [BOAR]: {
+    type: 'BLACK',
+    value: symbols => {
+      const whiteCounts = new Map<string, number>()
+      symbols.filter(isWhite).forEach(symbol => {
+        whiteCounts.set(symbol, (whiteCounts.get(symbol) || 0) + 1)
+      })
+      return sum(Array.from(whiteCounts.values()).filter(count => count >= 2))
+    },
+    color: chalk.bgYellow,
   },
 }

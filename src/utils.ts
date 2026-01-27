@@ -1,4 +1,4 @@
-import { SYMBOLS } from './constants.js'
+import { BOAR, SYMBOLS } from './constants.js'
 import type { SymbolType } from './types.js'
 
 // This is the main solving function. It is built on top of the `permute`
@@ -10,12 +10,26 @@ import type { SymbolType } from './types.js'
 export function solve(
   symbols: readonly SymbolType[]
 ): [SymbolType[], SymbolType[]] {
-  for (const permutation of permute([...symbols])) {
-    for (let i = 0; i < permutation.length - 1; i++) {
-      const A = permutation.slice(0, i).sort(sortSymbols)
-      const B = permutation.slice(i).sort(sortSymbols)
+  const hasBoar = symbols.includes(BOAR)
+  const symbolsWithoutBoar = hasBoar ? symbols.filter(s => s !== BOAR) : symbols
 
-      if (sum(resolveSymbols(A)) === sum(resolveSymbols(B))) return [A, B]
+  for (const permutation of permute([...symbolsWithoutBoar])) {
+    for (let i = 0; i < permutation.length - 1; i++) {
+      const sliceA = permutation.slice(0, i) as SymbolType[]
+      const sliceB = permutation.slice(i) as SymbolType[]
+
+      let A: SymbolType[] = sliceA.slice().sort(sortSymbols)
+      let B: SymbolType[] = sliceB.slice().sort(sortSymbols)
+
+      if (hasBoar) {
+        A = ([...A, BOAR] as SymbolType[]).sort(sortSymbols)
+        B = ([...B, BOAR] as SymbolType[]).sort(sortSymbols)
+      }
+
+      const valuesA = resolveSymbols(A)
+      const valuesB = resolveSymbols(B)
+
+      if (sum(valuesA) === sum(valuesB)) return [A, B]
     }
   }
 
