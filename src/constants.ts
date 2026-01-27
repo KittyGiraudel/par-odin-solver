@@ -1,6 +1,13 @@
 import chalk from 'chalk'
 import type { SymbolsMap } from './types.ts'
-import { isPositive, isWhite, resolveSymbol, sortDesc, is, isnt } from './utils.ts'
+import {
+  is,
+  isnt,
+  isPositive,
+  isWhite,
+  resolveSymbol,
+  sortDesc,
+} from './utils.ts'
 
 export const HERO = 'HERO'
 export const CAPTAIN = 'CAPTAIN'
@@ -12,7 +19,18 @@ export const WOLF = 'WOLF'
 export const SNAKE = 'SNAKE'
 export const HORSE = 'HORSE'
 export const DRAGON = 'DRAGON'
-export const SYMBOL_TYPES = [HERO, CAPTAIN, SOLDIER, CURSED, TRAITOR, MAGE, WOLF, SNAKE, HORSE, DRAGON] as const
+export const SYMBOL_TYPES = [
+  HERO,
+  CAPTAIN,
+  SOLDIER,
+  CURSED,
+  TRAITOR,
+  MAGE,
+  WOLF,
+  SNAKE,
+  HORSE,
+  DRAGON,
+] as const
 
 export const SYMBOLS: SymbolsMap = {
   [HERO]: {
@@ -37,7 +55,7 @@ export const SYMBOLS: SymbolsMap = {
   },
   [MAGE]: {
     type: 'WHITE',
-    value: (symbols) => symbols.filter(isWhite).filter(isnt('MAGE')).length,
+    value: symbols => symbols.filter(isWhite).filter(isnt('MAGE')).length,
     color: chalk.cyan,
   },
   [TRAITOR]: {
@@ -57,7 +75,7 @@ export const SYMBOLS: SymbolsMap = {
   },
   [WOLF]: {
     type: 'BLACK',
-    value: (symbols) => {
+    value: symbols => {
       const values = symbols
         .filter(isWhite)
         .map((symbol, i) => resolveSymbol(symbol, i, symbols))
@@ -70,7 +88,7 @@ export const SYMBOLS: SymbolsMap = {
   },
   [SNAKE]: {
     type: 'BLACK',
-    value: (symbols) => {
+    value: symbols => {
       const values = symbols
         .filter(isWhite)
         .map((symbol, i) => resolveSymbol(symbol, i, symbols))
@@ -83,12 +101,12 @@ export const SYMBOLS: SymbolsMap = {
   },
   [HORSE]: {
     type: 'BLACK',
-    value: (symbols) => symbols.filter(isWhite).length,
+    value: symbols => symbols.filter(isWhite).length,
     color: chalk.bgGrey,
   },
   [DRAGON]: {
     type: 'BLACK',
-    value: (symbols) => symbols.filter(isWhite).length * -1,
+    value: symbols => symbols.filter(isWhite).length * -1,
     color: chalk.bgRed,
   },
 }

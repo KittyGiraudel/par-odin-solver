@@ -1,9 +1,20 @@
 import chalk from 'chalk'
-import { display, solve } from './utils.js'
-import { HERO, CAPTAIN, SOLDIER, CURSED, TRAITOR, MAGE, WOLF, SNAKE, HORSE, DRAGON } from './constants.js'
+import {
+  CAPTAIN,
+  CURSED,
+  DRAGON,
+  HERO,
+  HORSE,
+  MAGE,
+  SNAKE,
+  SOLDIER,
+  TRAITOR,
+  WOLF,
+} from './constants.js'
 import type { SymbolType } from './types.js'
+import { display, solve } from './utils.js'
 
-// prettier-ignore
+// biome-ignore format: preserve array formatting for readability
 const CHALLENGES: SymbolType[][] = [
   [HERO, HERO, HERO, CAPTAIN, SOLDIER, SOLDIER, SOLDIER],
   [HERO, HERO, CAPTAIN, CAPTAIN, CAPTAIN, CAPTAIN, TRAITOR],
@@ -38,11 +49,11 @@ const CHALLENGES: SymbolType[][] = [
 ]
 
 CHALLENGES.forEach((symbols, index) => {
-  const key = chalk.bold.underline('Challenge #' + (index + 1))
+  const key = chalk.bold.underline(`Challenge #${index + 1}`)
 
   console.time(key)
   const [armyA, armyB] = solve([...symbols])
-  const solution = display(armyA, true) + ' === ' + display(armyB, true)
+  const solution = `${display(armyA, true)} === ${display(armyB, true)}`
   console.timeEnd(key)
 
   console.log(chalk.bold('Draft: ') + display(symbols, false, false))

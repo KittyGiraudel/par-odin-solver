@@ -1,19 +1,22 @@
-import test from 'node:test'
 import assert from 'node:assert'
-import { solve, resolveSymbols } from './utils.js'
-import { HERO, CAPTAIN, SOLDIER, CURSED, TRAITOR, MAGE, WOLF, SNAKE, HORSE, DRAGON } from './constants.js'
+import test from 'node:test'
+import {
+  CAPTAIN,
+  CURSED,
+  DRAGON,
+  HERO,
+  HORSE,
+  MAGE,
+  SNAKE,
+  SOLDIER,
+  TRAITOR,
+  WOLF,
+} from './constants.js'
+import { resolveSymbols, solve } from './utils.js'
 
 test('Should throw for unsolvable challenges', () => {
   assert.throws(() =>
-    solve([
-      SOLDIER,
-      SOLDIER,
-      SOLDIER,
-      SOLDIER,
-      SOLDIER,
-      SOLDIER,
-      SOLDIER,
-    ])
+    solve([SOLDIER, SOLDIER, SOLDIER, SOLDIER, SOLDIER, SOLDIER, SOLDIER])
   )
 })
 
@@ -29,15 +32,7 @@ test('Should handle the basic rules', () => {
 
 test('Should handle the Traitor', () => {
   assert.deepEqual(
-    solve([
-      CAPTAIN,
-      CAPTAIN,
-      SOLDIER,
-      SOLDIER,
-      HERO,
-      HERO,
-      TRAITOR,
-    ]),
+    solve([CAPTAIN, CAPTAIN, SOLDIER, SOLDIER, HERO, HERO, TRAITOR]),
     [
       [CAPTAIN, CAPTAIN, SOLDIER],
       [HERO, HERO, SOLDIER, TRAITOR],
@@ -56,13 +51,10 @@ test('Should handle the Cursed', () => {
 })
 
 test('Should handle the Traitor *and* the Cursed', () => {
-  assert.deepEqual(
-    solve([HERO, HERO, HERO, HERO, SOLDIER, TRAITOR, CURSED]),
-    [
-      [HERO, HERO, SOLDIER, TRAITOR],
-      [HERO, HERO, CURSED],
-    ]
-  )
+  assert.deepEqual(solve([HERO, HERO, HERO, HERO, SOLDIER, TRAITOR, CURSED]), [
+    [HERO, HERO, SOLDIER, TRAITOR],
+    [HERO, HERO, CURSED],
+  ])
 })
 
 test('Should handle the Wolf', () => {
@@ -81,7 +73,11 @@ test('Should handle the Wolf', () => {
   const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
   // Multiple valid solutions exist - just verify it's a valid split
-  assert.strictEqual(solution[0].length + solution[1].length, 8, 'Solution should contain all symbols')
+  assert.strictEqual(
+    solution[0].length + solution[1].length,
+    8,
+    'Solution should contain all symbols'
+  )
 })
 
 test('Should not penalize Traitors without Heroes', () => {
@@ -96,10 +92,7 @@ test('Should penalize only as many Traitors as there are Heroes', () => {
 })
 
 test('Should penalize Traitors when there are more Heroes than Traitors', () => {
-  assert.deepEqual(
-    resolveSymbols([HERO, HERO, HERO, TRAITOR]),
-    [3, 3, 3, -2]
-  )
+  assert.deepEqual(resolveSymbols([HERO, HERO, HERO, TRAITOR]), [3, 3, 3, -2])
 })
 
 // Challenge #1 (already covered by "Should handle the basic rules")
@@ -178,43 +171,31 @@ test('Challenge #11', () => {
 })
 
 test('Challenge #12', () => {
-  assert.deepEqual(
-    solve([HERO, HERO, SOLDIER, SOLDIER, TRAITOR, MAGE, MAGE]),
-    [
-      [HERO, SOLDIER, SOLDIER],
-      [HERO, MAGE, MAGE, TRAITOR],
-    ]
-  )
+  assert.deepEqual(solve([HERO, HERO, SOLDIER, SOLDIER, TRAITOR, MAGE, MAGE]), [
+    [HERO, SOLDIER, SOLDIER],
+    [HERO, MAGE, MAGE, TRAITOR],
+  ])
 })
 
 test('Challenge #13', () => {
-  assert.deepEqual(
-    solve([SOLDIER, CURSED, CURSED, MAGE, MAGE, MAGE, MAGE]),
-    [
-      [SOLDIER, CURSED, MAGE],
-      [CURSED, MAGE, MAGE, MAGE],
-    ]
-  )
+  assert.deepEqual(solve([SOLDIER, CURSED, CURSED, MAGE, MAGE, MAGE, MAGE]), [
+    [SOLDIER, CURSED, MAGE],
+    [CURSED, MAGE, MAGE, MAGE],
+  ])
 })
 
 test('Challenge #14', () => {
-  assert.deepEqual(
-    solve([HERO, CAPTAIN, CAPTAIN, CURSED, MAGE, MAGE, MAGE]),
-    [
-      [CAPTAIN, CAPTAIN, MAGE],
-      [HERO, CURSED, MAGE, MAGE],
-    ]
-  )
+  assert.deepEqual(solve([HERO, CAPTAIN, CAPTAIN, CURSED, MAGE, MAGE, MAGE]), [
+    [CAPTAIN, CAPTAIN, MAGE],
+    [HERO, CURSED, MAGE, MAGE],
+  ])
 })
 
 test('Challenge #15', () => {
-  assert.deepEqual(
-    solve([HERO, SOLDIER, TRAITOR, TRAITOR, MAGE, MAGE, MAGE]),
-    [
-      [HERO, SOLDIER, MAGE],
-      [MAGE, MAGE, TRAITOR, TRAITOR],
-    ]
-  )
+  assert.deepEqual(solve([HERO, SOLDIER, TRAITOR, TRAITOR, MAGE, MAGE, MAGE]), [
+    [HERO, SOLDIER, MAGE],
+    [MAGE, MAGE, TRAITOR, TRAITOR],
+  ])
 })
 
 // Challenge #16 (already covered by "Should handle the Wolf")
@@ -240,13 +221,26 @@ test('Challenge #18', () => {
 })
 
 test('Challenge #19', () => {
-  const solution = solve([HERO, SOLDIER, SOLDIER, CURSED, CURSED, CURSED, MAGE, SNAKE])
+  const solution = solve([
+    HERO,
+    SOLDIER,
+    SOLDIER,
+    CURSED,
+    CURSED,
+    CURSED,
+    MAGE,
+    SNAKE,
+  ])
   // Verify the solution is valid (both armies have equal sums)
   const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
   const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
   // Multiple valid solutions exist - just verify it's a valid split
-  assert.strictEqual(solution[0].length + solution[1].length, 8, 'Solution should contain all symbols')
+  assert.strictEqual(
+    solution[0].length + solution[1].length,
+    8,
+    'Solution should contain all symbols'
+  )
 })
 
 test('Challenge #20', () => {

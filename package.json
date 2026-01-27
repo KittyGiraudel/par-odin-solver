@@ -5,11 +5,14 @@
     "start": "node dist/index.js",
     "test": "node --loader ts-node/esm --test dist/tests.js",
     "dev": "tsx src/index.ts",
-    "test:dev": "tsx src/tests.ts"
+    "test:dev": "tsx src/tests.ts",
+    "format": "biome format --write src/*.ts",
+    "lint": "biome lint src/*.ts",
+    "check": "biome check --write src/*.ts"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.3.13",
     "@types/node": "^20.10.0",
-    "prettier": "^2.8.8",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
