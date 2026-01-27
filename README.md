@@ -1,6 +1,6 @@
 # Par Odin! Solver
 
-A TypeScript solver for the *Par Odin!* game, which challenges players to split a set of symbols into two armies with equal total values.
+A TypeScript solver for the _Par Odin!_ game, which challenges players to split a set of symbols into two armies with equal total values.
 
 ## What is Par Odin!?
 
@@ -19,6 +19,10 @@ Par Odin! is a puzzle game where you’re given a draft of symbols (characters a
   - `SNAKE`: Negate the highest positive white symbol value
   - `HORSE`: Value equals the number of white symbols
   - `DRAGON`: Negative value equal to the number of white symbols
+  - `BOAR`: Increases duplicate white dice by +1 each (appears on both sides)
+  - `EAGLE`: Decreases duplicate white dice by -1 each (appears on both sides)
+
+**Note:** `BOAR` and `EAGLE` are special symbols that don’t take a side in the split. They are automatically added to both armies and only affect white dice that appear 2+ times (duplicates) within each army. Unique white dice are not affected.
 
 The solver finds all possible ways to split the symbols into two armies with equal total values.
 
@@ -42,29 +46,7 @@ npm run dev
 
 This will solve all predefined challenges and display the results with colored output.
 
-### Production Build
-
-Build the TypeScript project:
-
-```bash
-npm run build
-```
-
-Run the compiled JavaScript:
-
-```bash
-npm start
-```
-
 ### Testing
-
-Run tests in development mode:
-
-```bash
-npm run test:dev
-```
-
-Or run the compiled tests:
 
 ```bash
 npm test

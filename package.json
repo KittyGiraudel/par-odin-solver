@@ -3,9 +3,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "test": "node --loader ts-node/esm --test dist/tests.js",
+    "test:build": "node --loader ts-node/esm --test dist/tests.js",
     "dev": "tsx src/index.ts",
-    "test:dev": "tsx src/tests.ts",
+    "test": "tsx src/tests.ts",
     "format": "biome format --write src/*.ts",
     "lint": "biome lint src/*.ts",
     "check": "biome check --write src/*.ts"

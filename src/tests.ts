@@ -5,6 +5,7 @@ import {
   CAPTAIN,
   CURSED,
   DRAGON,
+  EAGLE,
   HERO,
   HORSE,
   MAGE,
@@ -344,7 +345,11 @@ test('Should handle the Boar - multiple duplicate types', () => {
   // [HERO, HERO, HERO, CAPTAIN, CAPTAIN, SOLDIER, BOAR] -> 3 HERO + 2 CAPTAIN = +5 total
   const army = [HERO, HERO, HERO, CAPTAIN, CAPTAIN, SOLDIER, BOAR] as const
   const boarValue = resolveSymbol(BOAR, 6, army)
-  assert.strictEqual(boarValue, 5, 'Boar should add +5 for 3 HERO and 2 CAPTAIN')
+  assert.strictEqual(
+    boarValue,
+    5,
+    'Boar should add +5 for 3 HERO and 2 CAPTAIN'
+  )
 })
 
 test('Should handle the Boar - boar value in army context', () => {
@@ -437,4 +442,65 @@ test('Challenge #30 (Boar)', () => {
   const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
   const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Should handle the Eagle - value for duplicate white dice', () => {
+  // Eagle should subtract -1 for each duplicate white die
+  // [HERO, HERO, SOLDIER, EAGLE] -> 2 HERO (duplicates) = -2 total
+  const army = [HERO, HERO, SOLDIER, EAGLE] as const
+  const eagleValue = resolveSymbol(EAGLE, 3, army)
+  assert.strictEqual(
+    eagleValue,
+    -2,
+    'Eagle should subtract -2 for 2 duplicate HERO'
+  )
+})
+
+test('Should handle the Eagle - no value for unique white dice', () => {
+  // Eagle should subtract 0 when all white dice are unique
+  const army = [HERO, SOLDIER, CAPTAIN, EAGLE] as const
+  const eagleValue = resolveSymbol(EAGLE, 3, army)
+  assert.ok(
+    eagleValue === 0 || eagleValue === 0,
+    'Eagle should subtract 0 when no duplicates'
+  )
+})
+
+test('Should handle the Eagle - multiple duplicate types', () => {
+  // Multiple duplicate types should all count
+  // [HERO, HERO, HERO, CAPTAIN, CAPTAIN, SOLDIER, EAGLE] -> 3 HERO + 2 CAPTAIN = -5 total
+  const army = [HERO, HERO, HERO, CAPTAIN, CAPTAIN, SOLDIER, EAGLE] as const
+  const eagleValue = resolveSymbol(EAGLE, 6, army)
+  assert.strictEqual(
+    eagleValue,
+    -5,
+    'Eagle should subtract -5 for 3 HERO and 2 CAPTAIN'
+  )
+})
+
+test('Should handle the Eagle - eagle value in army context', () => {
+  // Eagle's value depends on the army it's in
+  const army1 = [HERO, HERO, EAGLE] as const
+  const army2 = [SOLDIER, EAGLE] as const
+  const eagleValue1 = resolveSymbol(EAGLE, 2, army1)
+  const eagleValue2 = resolveSymbol(EAGLE, 1, army2)
+  assert.strictEqual(eagleValue1, -2, 'Eagle in army with 2 HERO should be -2')
+  assert.ok(
+    eagleValue2 === 0 || eagleValue2 === 0,
+    'Eagle in army with unique dice should be 0'
+  )
+})
+
+test('Should handle the Eagle - opposite of boar', () => {
+  // Eagle should be the negative of boar for the same army
+  const army = [HERO, HERO, SOLDIER] as const
+  const armyWithBoar = [...army, BOAR] as const
+  const armyWithEagle = [...army, EAGLE] as const
+  const boarValue = resolveSymbol(BOAR, 3, armyWithBoar)
+  const eagleValue = resolveSymbol(EAGLE, 3, armyWithEagle)
+  assert.strictEqual(
+    eagleValue,
+    -boarValue,
+    'Eagle should be the negative of boar for the same duplicates'
+  )
 })

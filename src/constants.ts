@@ -21,6 +21,7 @@ export const SNAKE = 'SNAKE'
 export const HORSE = 'HORSE'
 export const DRAGON = 'DRAGON'
 export const BOAR = 'BOAR'
+export const EAGLE = 'EAGLE'
 export const SYMBOL_TYPES = [
   HERO,
   CAPTAIN,
@@ -33,6 +34,7 @@ export const SYMBOL_TYPES = [
   HORSE,
   DRAGON,
   BOAR,
+  EAGLE,
 ] as const
 
 export const SYMBOLS: SymbolsMap = {
@@ -122,5 +124,16 @@ export const SYMBOLS: SymbolsMap = {
       return sum(Array.from(whiteCounts.values()).filter(count => count >= 2))
     },
     color: chalk.bgYellow,
+  },
+  [EAGLE]: {
+    type: 'BLACK',
+    value: symbols => {
+      const whiteCounts = new Map<string, number>()
+      symbols.filter(isWhite).forEach(symbol => {
+        whiteCounts.set(symbol, (whiteCounts.get(symbol) || 0) + 1)
+      })
+      return -sum(Array.from(whiteCounts.values()).filter(count => count >= 2))
+    },
+    color: chalk.bgMagenta,
   },
 }
