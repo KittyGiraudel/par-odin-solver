@@ -1,9 +1,10 @@
 import chalk from 'chalk'
-import { display, solve } from './utils.mjs'
-import { HERO, CAPTAIN, SOLDIER, CURSED, TRAITOR, MAGE, WOLF, SNAKE, HORSE, DRAGON } from './constants.mjs'
+import { display, solve } from './utils.js'
+import { HERO, CAPTAIN, SOLDIER, CURSED, TRAITOR, MAGE, WOLF, SNAKE, HORSE, DRAGON } from './constants.js'
+import type { SymbolType } from './types.js'
 
 // prettier-ignore
-const CHALLENGES = [
+const CHALLENGES: SymbolType[][] = [
   [HERO, HERO, HERO, CAPTAIN, SOLDIER, SOLDIER, SOLDIER],
   [HERO, HERO, CAPTAIN, CAPTAIN, CAPTAIN, CAPTAIN, TRAITOR],
   [HERO, HERO, HERO, CAPTAIN, CAPTAIN, CAPTAIN, CURSED],
@@ -40,7 +41,8 @@ CHALLENGES.forEach((symbols, index) => {
   const key = chalk.bold.underline('Challenge #' + (index + 1))
 
   console.time(key)
-  const solution = solve(symbols.slice(0)).map(display).join(' === ')
+  const [armyA, armyB] = solve([...symbols])
+  const solution = display(armyA, true) + ' === ' + display(armyB, true)
   console.timeEnd(key)
 
   console.log(chalk.bold('Draft: ') + display(symbols, false, false))
