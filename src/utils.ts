@@ -12,9 +12,7 @@ export function solve(
 ): [SymbolType[], SymbolType[]] {
   const hasBoar = symbols.includes(BOAR)
   const hasEagle = symbols.includes(EAGLE)
-  const symbolsWithoutSpecial = symbols.filter(
-    s => s !== BOAR && s !== EAGLE
-  )
+  const symbolsWithoutSpecial = symbols.filter(s => s !== BOAR && s !== EAGLE)
 
   for (const permutation of permute([...symbolsWithoutSpecial])) {
     for (let i = 0; i < permutation.length - 1; i++) {
@@ -76,8 +74,6 @@ export const sum = (array: number[]): number => array.reduce((a, b) => a + b, 0)
 export const isWhite = (symbol: SymbolType): boolean =>
   SYMBOLS[symbol].type === 'WHITE'
 
-export const isPositive = (value: number): boolean => value > 0
-
 export const sortDesc = (a: number, b: number): number =>
   a > b ? -1 : a < b ? 1 : 0
 
@@ -114,3 +110,16 @@ function* permute(permutation: SymbolType[]): Generator<SymbolType[]> {
     }
   }
 }
+
+export const mapOccurences = (symbols: readonly SymbolType[]) =>
+  symbols.reduce(
+    (acc, symbol) => acc.set(symbol, (acc.get(symbol) || 0) + 1),
+    new Map<string, number>()
+  )
+
+export const mapValues = <K, V>(map: Map<K, V>): V[] => Array.from(map.values())
+
+export const indices = (symbols: readonly SymbolType[], type: SymbolType) =>
+  symbols
+    .map((symbol, pos) => (is(symbol)(type) ? pos : null))
+    .filter((position): position is number => position !== null)

@@ -1,10 +1,12 @@
 import chalk from 'chalk'
 import type { SymbolsMap } from './types.ts'
 import {
+  indices,
   is,
   isnt,
-  isPositive,
   isWhite,
+  mapValues as mValues,
+  mapOccurences as occurrences,
   resolveSymbol,
   sortDesc,
   sum,
@@ -67,12 +69,10 @@ export const SYMBOLS: SymbolsMap = {
     type: 'WHITE',
     value: (symbols, index) => {
       const heroes = symbols.filter(is(HERO))
-      const traitorPos = symbols
-        .map((symbol, pos) => (is(symbol)(TRAITOR) ? pos : null))
-        .filter((position): position is number => position !== null)
+      const traitors = indices(symbols, TRAITOR)
       const isPaired =
-        traitorPos.indexOf(index) > -1 &&
-        traitorPos.indexOf(index) < Math.min(heroes.length, traitorPos.length)
+        traitors.indexOf(index) > -1 &&
+        traitors.indexOf(index) < Math.min(heroes.length, traitors.length)
 
       return +1 + (isPaired ? -3 : 0)
     },
@@ -80,28 +80,17 @@ export const SYMBOLS: SymbolsMap = {
   },
   [WOLF]: {
     type: 'BLACK',
-    value: symbols => {
-      const max = symbols
+    value: symbols =>
+      (symbols
         .filter(isWhite)
         .map((symbol, i) => resolveSymbol(symbol, i, symbols))
-        .filter(isPositive)
         .sort(sortDesc)
-        .pop()
-      return max !== undefined ? max * 2 : 0
-    },
+        .pop() ?? 0) * 2,
     color: chalk.bgBlue,
   },
   [SNAKE]: {
     type: 'BLACK',
-    value: symbols => {
-      const max = symbols
-        .filter(isWhite)
-        .map((symbol, i) => resolveSymbol(symbol, i, symbols))
-        .filter(isPositive)
-        .sort(sortDesc)
-        .pop()
-      return max !== undefined ? max * -1 : 0
-    },
+    value: (symbols, index) => (SYMBOLS.WOLF.value(symbols, index) / 2) * -1, // Reverse(ish) wolf
     color: chalk.bgGreen,
   },
   [HORSE]: {
@@ -111,29 +100,18 @@ export const SYMBOLS: SymbolsMap = {
   },
   [DRAGON]: {
     type: 'BLACK',
-    value: symbols => symbols.filter(isWhite).length * -1,
+    value: (symbols, index) => SYMBOLS.HORSE.value(symbols, index) * -1, // Reverse horse
     color: chalk.bgRed,
   },
   [BOAR]: {
     type: 'BLACK',
-    value: symbols => {
-      const whiteCounts = new Map<string, number>()
-      symbols.filter(isWhite).forEach(symbol => {
-        whiteCounts.set(symbol, (whiteCounts.get(symbol) || 0) + 1)
-      })
-      return sum(Array.from(whiteCounts.values()).filter(count => count >= 2))
-    },
+    value: symbols =>
+      sum(mValues(occurrences(symbols.filter(isWhite))).filter(c => c >= 2)),
     color: chalk.bgYellow,
   },
   [EAGLE]: {
     type: 'BLACK',
-    value: symbols => {
-      const whiteCounts = new Map<string, number>()
-      symbols.filter(isWhite).forEach(symbol => {
-        whiteCounts.set(symbol, (whiteCounts.get(symbol) || 0) + 1)
-      })
-      return -sum(Array.from(whiteCounts.values()).filter(count => count >= 2))
-    },
+    value: (symbols, index) => SYMBOLS.BOAR.value(symbols, index) * -1, // Reverse boar
     color: chalk.bgMagenta,
   },
 }
