@@ -81,12 +81,12 @@ export const SYMBOLS: SymbolsMap = {
   [WOLF]: {
     type: 'BLACK',
     value: symbols => {
-      const values = symbols
+      const max = symbols
         .filter(isWhite)
         .map((symbol, i) => resolveSymbol(symbol, i, symbols))
         .filter(isPositive)
         .sort(sortDesc)
-      const max = values.pop()
+        .pop()
       return max !== undefined ? max * 2 : 0
     },
     color: chalk.bgBlue,
@@ -94,12 +94,12 @@ export const SYMBOLS: SymbolsMap = {
   [SNAKE]: {
     type: 'BLACK',
     value: symbols => {
-      const values = symbols
+      const max = symbols
         .filter(isWhite)
         .map((symbol, i) => resolveSymbol(symbol, i, symbols))
         .filter(isPositive)
         .sort(sortDesc)
-      const max = values.pop()
+        .pop()
       return max !== undefined ? max * -1 : 0
     },
     color: chalk.bgGreen,

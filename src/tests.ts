@@ -504,3 +504,403 @@ test('Should handle the Eagle - opposite of boar', () => {
     'Eagle should be the negative of boar for the same duplicates'
   )
 })
+
+test('Challenge #31 (Eagle)', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    CAPTAIN,
+    SOLDIER,
+    CURSED,
+    CURSED,
+    MAGE,
+    EAGLE,
+  ])
+  assert.strictEqual(
+    solution[0].length + solution[1].length,
+    9,
+    'Solution should contain all symbols including eagle in both armies'
+  )
+  assert.ok(
+    solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
+    'Eagle should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #32 (Eagle)', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    CAPTAIN,
+    SOLDIER,
+    SOLDIER,
+    TRAITOR,
+    MAGE,
+    EAGLE,
+  ])
+  assert.strictEqual(
+    solution[0].length + solution[1].length,
+    9,
+    'Solution should contain all symbols including eagle in both armies'
+  )
+  assert.ok(
+    solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
+    'Eagle should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #33 (Eagle)', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    HERO,
+    SOLDIER,
+    TRAITOR,
+    MAGE,
+    MAGE,
+    EAGLE,
+  ])
+  assert.strictEqual(
+    solution[0].length + solution[1].length,
+    9,
+    'Solution should contain all symbols including eagle in both armies'
+  )
+  assert.ok(
+    solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
+    'Eagle should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #34', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    SOLDIER,
+    SOLDIER,
+    TRAITOR,
+    MAGE,
+    MAGE,
+    HORSE,
+    BOAR,
+  ])
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #35', () => {
+  const solution = solve([
+    SOLDIER,
+    SOLDIER,
+    CURSED,
+    CURSED,
+    CURSED,
+    MAGE,
+    MAGE,
+    WOLF,
+    DRAGON,
+  ])
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #36', () => {
+  const solution = solve([
+    HERO,
+    SOLDIER,
+    SOLDIER,
+    TRAITOR,
+    MAGE,
+    MAGE,
+    MAGE,
+    HORSE,
+    EAGLE,
+  ])
+  assert.ok(
+    solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
+    'Eagle should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #37', () => {
+  const solution = solve([
+    HERO,
+    SOLDIER,
+    SOLDIER,
+    TRAITOR,
+    TRAITOR,
+    MAGE,
+    MAGE,
+    DRAGON,
+    BOAR,
+  ])
+  assert.ok(
+    solution[0].includes(BOAR) && solution[1].includes(BOAR),
+    'Boar should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #38', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    SOLDIER,
+    TRAITOR,
+    TRAITOR,
+    TRAITOR,
+    MAGE,
+    SNAKE,
+    EAGLE,
+  ])
+  assert.ok(
+    solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
+    'Eagle should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #39', () => {
+  const solution = solve([
+    HERO,
+    CAPTAIN,
+    CAPTAIN,
+    TRAITOR,
+    MAGE,
+    MAGE,
+    MAGE,
+    WOLF,
+    HORSE,
+  ])
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #40', () => {
+  const solution = solve([
+    HERO,
+    SOLDIER,
+    SOLDIER,
+    SOLDIER,
+    CURSED,
+    CURSED,
+    MAGE,
+    SNAKE,
+    DRAGON,
+  ])
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #41', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    SOLDIER,
+    SOLDIER,
+    TRAITOR,
+    MAGE,
+    MAGE,
+    WOLF,
+    EAGLE,
+  ])
+  assert.ok(
+    solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
+    'Eagle should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #42', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    HERO,
+    TRAITOR,
+    TRAITOR,
+    CURSED,
+    MAGE,
+    DRAGON,
+    BOAR,
+  ])
+  assert.ok(
+    solution[0].includes(BOAR) && solution[1].includes(BOAR),
+    'Boar should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #43', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    TRAITOR,
+    CURSED,
+    CURSED,
+    MAGE,
+    MAGE,
+    WOLF,
+    BOAR,
+  ])
+  assert.ok(
+    solution[0].includes(BOAR) && solution[1].includes(BOAR),
+    'Boar should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #44', () => {
+  const solution = solve([
+    SOLDIER,
+    SOLDIER,
+    SOLDIER,
+    SOLDIER,
+    SOLDIER,
+    CAPTAIN,
+    MAGE,
+    WOLF,
+    SNAKE,
+  ])
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #45', () => {
+  const solution = solve([
+    CAPTAIN,
+    SOLDIER,
+    SOLDIER,
+    SOLDIER,
+    MAGE,
+    MAGE,
+    MAGE,
+    HORSE,
+    EAGLE,
+  ])
+  assert.ok(
+    solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
+    'Eagle should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #46', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    CAPTAIN,
+    SOLDIER,
+    TRAITOR,
+    CURSED,
+    MAGE,
+    WOLF,
+    WOLF,
+  ])
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #47', () => {
+  const solution = solve([
+    HERO,
+    SOLDIER,
+    SOLDIER,
+    TRAITOR,
+    TRAITOR,
+    TRAITOR,
+    MAGE,
+    SNAKE,
+    BOAR,
+  ])
+  assert.ok(
+    solution[0].includes(BOAR) && solution[1].includes(BOAR),
+    'Boar should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #48', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    TRAITOR,
+    TRAITOR,
+    TRAITOR,
+    CURSED,
+    MAGE,
+    WOLF,
+    EAGLE,
+  ])
+  assert.ok(
+    solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
+    'Eagle should be in both armies'
+  )
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #49', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    CAPTAIN,
+    CAPTAIN,
+    CAPTAIN,
+    TRAITOR,
+    MAGE,
+    WOLF,
+    SNAKE,
+  ])
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
+
+test('Challenge #50', () => {
+  const solution = solve([
+    HERO,
+    HERO,
+    CAPTAIN,
+    TRAITOR,
+    MAGE,
+    MAGE,
+    MAGE,
+    SNAKE,
+    HORSE,
+  ])
+  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
+})
