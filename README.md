@@ -6,7 +6,7 @@ A TypeScript solver for the _Par Odin!_ game, which challenges players to split 
 
 Par Odin! is a puzzle game where you’re given a draft of units (characters and creatures) and must divide them into two balanced armies. Each unit has a specific value calculation:
 
-- **White units** (positive values):
+- **White units**:
   - `HERO`: +3
   - `CAPTAIN`: +2
   - `SOLDIER`: +1
@@ -14,7 +14,7 @@ Par Odin! is a puzzle game where you’re given a draft of units (characters and
   - `MAGE`: Value equals the number of non-mage white units (excluding itself)
   - `TRAITOR`: +1, but -3 if paired with a HERO
 
-- **Black units** (variable values):
+- **Black units**:
   - `WOLF`: Double the highest positive white unit value
   - `SNAKE`: Negate the highest positive white unit value
   - `HORSE`: Value equals the number of white units
@@ -26,29 +26,10 @@ Par Odin! is a puzzle game where you’re given a draft of units (characters and
 
 The solver finds all possible ways to split the units into two armies with equal total values.
 
-## Installation
-
-Install dependencies:
-
-```bash
-npm install
-```
-
 ## Usage
 
-### Development Mode
-
-Run the solver directly with TypeScript (no build step required):
-
-```bash
-npm run dev
-```
-
-This will solve all predefined challenges and display the results with colored output.
-
-### Testing
-
-```bash
+```sh
+npm install
 npm test
 ```
 
