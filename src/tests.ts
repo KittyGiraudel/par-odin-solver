@@ -1,20 +1,22 @@
 import assert from 'node:assert'
 import test from 'node:test'
-import {
-  BOAR,
-  CAPTAIN,
-  CURSED,
-  DRAGON,
-  EAGLE,
+import { SYMBOL_TYPES } from './constants.js'
+import { resolveSymbol, resolveSymbols, solve } from './utils.js'
+
+const {
   HERO,
-  HORSE,
-  MAGE,
-  SNAKE,
+  CAPTAIN,
   SOLDIER,
   TRAITOR,
+  CURSED,
+  MAGE,
   WOLF,
-} from './constants.js'
-import { resolveSymbol, resolveSymbols, solve } from './utils.js'
+  SNAKE,
+  DRAGON,
+  HORSE,
+  BOAR,
+  EAGLE,
+} = SYMBOL_TYPES
 
 test('Should throw for unsolvable challenges', () => {
   assert.throws(() =>
