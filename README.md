@@ -47,6 +47,7 @@ Then open the printed local URL in your browser. From there you can:
 - Build a custom draft by adding and removing unit types.
 - Load any of the existing challenges as a starting draft.
 - Run the solver to see both armies, along with their total scores.
+- Open an in-app “Rules” dialog from the header to read a quick description of the goal and all units.
 
 ## How It Works
 

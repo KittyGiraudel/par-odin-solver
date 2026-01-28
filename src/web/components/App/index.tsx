@@ -1,13 +1,17 @@
 import type React from 'react'
 import { useState } from 'react'
+import { useA11yDialog } from 'react-a11y-dialog'
+import { createPortal } from 'react-dom'
 import { CHALLENGES, UNIT_TYPES, UNITS } from '../../../solver/constants.js'
 import { Solver } from '../../../solver/Solver.js'
 import type { UnitColor, UnitType } from '../../../solver/types.js'
 import { DraftPanel } from '../DraftPanel'
 import { Header } from '../Header'
+import { RulesDialog } from '../RulesDialog'
 import type { SolvedUnit, SolveState } from '../SolutionPanel'
 import { SolutionPanel } from '../SolutionPanel'
 import { UnitSelectorPanel } from '../UnitSelectorPanel/index.js'
+import '../RulesDialog/styles.css'
 import './styles.css'
 
 export interface UnitMeta {
@@ -107,6 +111,11 @@ export const App: React.FC = () => {
     number | ''
   >('')
 
+  const [rulesDialogInstance, rulesDialogAttrs] = useA11yDialog({
+    id: 'rules-dialog',
+    role: 'dialog',
+  })
+
   const handleAddUnit = (unit: UnitType) => {
     setDraft(prev => {
       if (SINGLETON_UNITS.includes(unit) && prev.includes(unit)) return prev
@@ -193,23 +202,24 @@ export const App: React.FC = () => {
     setSelectedChallengeIndex('')
   }
 
-  return (
-    <div className='app-root'>
-      <div className='app-shell'>
-        <Header
-          selectedChallengeIndex={selectedChallengeIndex}
-          challenges={PRESET_CHALLENGES}
-          onSelectChallenge={handleSelectChallenge}
-          onReset={handleReset}
-          onRandomDraft={handleRandomDraft}
-        />
+  const rulesDialog = createPortal(
+    <RulesDialog attrs={rulesDialogAttrs} />,
+    document.body
+  )
 
-        <main className='app-main-grid' aria-label='Draft and solution layout'>
+  return (
+    <>
+      <Header onOpenRules={() => rulesDialogInstance?.show()} />
+
+      <div className='app-root'>
+        <main className='app-main' aria-label='Draft and solution layout'>
           <DraftPanel
             draft={draft}
-            units={UNIT_METADATA}
+            selectedChallengeIndex={selectedChallengeIndex}
             onSolve={handleSolve}
-            canSolve={draft.length >= 2}
+            onSelectChallenge={handleSelectChallenge}
+            onRandomDraft={handleRandomDraft}
+            onReset={handleReset}
           />
 
           <SolutionPanel solution={solution} error={error} />
@@ -221,6 +231,7 @@ export const App: React.FC = () => {
           />
         </main>
       </div>
-    </div>
+      {rulesDialog}
+    </>
   )
 }

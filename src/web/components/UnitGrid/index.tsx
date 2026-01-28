@@ -19,8 +19,8 @@ export const UnitGrid: React.FC<UnitGridProps> = ({
 }) => {
   const countsByUnit = useMemo(() => countByUnit(units), [units])
   return (
-    <>
-      {units.map(type => {
+    <div className='unit-grid'>
+      {units.map((type, index) => {
         const unitMeta = UNIT_METADATA.find(meta => meta.id === type)!
         const count = countsByUnit[type] ?? 0
         const isSingleton = SINGLETON_UNITS.includes(type)
@@ -28,7 +28,7 @@ export const UnitGrid: React.FC<UnitGridProps> = ({
 
         return (
           <UnitTile
-            key={type}
+            key={type + '-' + index}
             unit={unitMeta}
             count={count}
             onAdd={canAdd && onAddUnit ? () => onAddUnit?.(type) : undefined}
@@ -38,6 +38,6 @@ export const UnitGrid: React.FC<UnitGridProps> = ({
           />
         )
       })}
-    </>
+    </div>
   )
 }

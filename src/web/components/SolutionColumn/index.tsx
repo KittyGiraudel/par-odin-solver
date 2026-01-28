@@ -19,7 +19,7 @@ export const SolutionColumn: React.FC<SolutionColumnProps> = ({
   return (
     <div className='solution-column'>
       <div className='solution-header'>
-        <h4 className='solution-title'>{title}</h4>
+        <h3 className='solution-title'>{title}</h3>
         <span className='solution-total'>Total: {total}</span>
       </div>
 

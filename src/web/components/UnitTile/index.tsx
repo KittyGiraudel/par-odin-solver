@@ -40,6 +40,8 @@ export const UnitTile: React.FC<UnitTileProps> = ({
               className='unit-tile-ctrl unit-tile-ctrl--minus'
               onClick={onRemove}
               disabled={!onRemove}
+              aria-label={`Remove ${unit.id}`}
+              title={`Remove ${unit.id}`}
             >
               −
             </button>
@@ -49,6 +51,8 @@ export const UnitTile: React.FC<UnitTileProps> = ({
               className='unit-tile-ctrl unit-tile-ctrl--plus'
               onClick={onAdd}
               disabled={!onAdd}
+              aria-label={`Add ${unit.id}`}
+              title={`Add ${unit.id}`}
             >
               +
             </button>

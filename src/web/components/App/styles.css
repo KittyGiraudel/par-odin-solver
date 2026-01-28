@@ -1,40 +1,20 @@
 .app-root {
   min-height: 100vh;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f3f4f6;
-  color: #111827;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-.app-shell {
   max-width: 960px;
   margin: 0 auto;
+  padding: 2.5rem 2rem 2rem;
+  width: 100%;
 }
 
-.app-main-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.5rem;
-}
-
-.app-right-column {
+.app-main {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 @media (max-width: 960px) {
   .app-root {
     padding: 1.5rem 1rem;
-  }
-
-  .app-shell {
-    max-width: 100%;
-  }
-
-  .app-main-grid {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 

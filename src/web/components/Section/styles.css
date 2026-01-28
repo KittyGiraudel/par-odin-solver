@@ -21,3 +21,18 @@
 .section-subtitle:last-child {
   margin-bottom: 0;
 }
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.section-header-content {
+  flex: 1;
+}
+
+.section-header-actions {
+  margin-left: auto;
+}

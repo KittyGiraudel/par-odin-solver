@@ -7,7 +7,7 @@ export default defineConfig({
   root: 'src/web',
   plugins: [react()],
   build: {
-    outDir: '../dist-web',
+    outDir: '../../dist-web',
     emptyOutDir: true,
   },
 })
