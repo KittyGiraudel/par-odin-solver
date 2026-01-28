@@ -47,6 +47,18 @@ export function* permute(permutation: UnitType[]): Generator<UnitType[]> {
   }
 }
 
+export function* getPossibilities(
+  units: readonly UnitType[]
+): Generator<[UnitType[], UnitType[]]> {
+  for (const permutation of permute([...units])) {
+    for (let i = 0; i < permutation.length - 1; i++) {
+      const A = permutation.slice(0, i)
+      const B = permutation.slice(i)
+      yield [A, B]
+    }
+  }
+}
+
 export const occurrences = (units: readonly UnitType[]) =>
   units.reduce(
     (acc, unit) => acc.set(unit, (acc.get(unit) || 0) + 1),
