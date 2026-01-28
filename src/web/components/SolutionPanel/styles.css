@@ -1,22 +1,14 @@
-.po-solution-panel {
-  background: #ffffff;
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-  border: 1px solid #e5e7eb;
-  flex: 1;
-}
-
-.po-solution-panel-title {
-  margin-top: 0;
+.solution-panel-title {
+  margin-top: 3rem;
   margin-bottom: 0.75rem;
 }
 
-.po-solution-panel-empty {
+.solution-panel-empty {
   margin: 0;
   color: #4b5563;
 }
 
-.po-solution-panel-error {
+.solution-panel-error {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
@@ -26,36 +18,44 @@
   border: 1px solid #fecaca;
 }
 
-.po-solution-panel-error-icon {
+.solution-panel-error-icon {
   font-size: 1.4rem;
   line-height: 1;
 }
 
-.po-solution-panel-error-body {
+.solution-panel-error-body {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
 }
 
-.po-solution-panel-error-title {
+.solution-panel-error-title {
   margin: 0;
   font-weight: 600;
   color: #b91c1c;
 }
 
-.po-solution-panel-error-text {
+.solution-panel-error-text {
   margin: 0;
   font-size: 0.9rem;
   color: #7f1d1d;
 }
 
-.po-solution-panel-grid {
+.solution-panel-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 2rem;
 }
 
-.po-solution-panel-shared {
+@media (max-width: 640px) {
+  .solution-panel-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+
+.solution-panel-shared {
   margin-top: 1rem;
   padding-top: 0.75rem;
   border-top: 1px dashed #e5e7eb;
@@ -65,14 +65,14 @@
   flex-wrap: wrap;
 }
 
-.po-solution-panel-shared-label {
+.solution-panel-shared-label {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #6b7280;
 }
 
-.po-solution-panel-shared-tags {
+.solution-panel-shared-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;

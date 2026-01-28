@@ -10,50 +10,50 @@ body {
    Each class defines --unit-accent, which UnitTag consumes differently
    for white-background vs black-background chips.
 */
-.po-unit-color--HERO {
+.unit-color--HERO {
   --unit-accent: #a855f7;
 }
 
-.po-unit-color--CAPTAIN {
+.unit-color--CAPTAIN {
   --unit-accent: #6b7280;
 }
 
-.po-unit-color--SOLDIER {
+.unit-color--SOLDIER {
   --unit-accent: #16a34a;
 }
 
-.po-unit-color--CURSED {
+.unit-color--CURSED {
   --unit-accent: #eab308;
 }
 
-.po-unit-color--MAGE {
+.unit-color--MAGE {
   --unit-accent: #0ea5e9;
 }
 
-.po-unit-color--TRAITOR {
+.unit-color--TRAITOR {
   --unit-accent: #ef4444;
 }
 
-.po-unit-color--WOLF {
+.unit-color--WOLF {
   --unit-accent: #1d4ed8;
 }
 
-.po-unit-color--SNAKE {
+.unit-color--SNAKE {
   --unit-accent: #16a34a;
 }
 
-.po-unit-color--HORSE {
+.unit-color--HORSE {
   --unit-accent: #6b7280;
 }
 
-.po-unit-color--DRAGON {
+.unit-color--DRAGON {
   --unit-accent: #b91c1c;
 }
 
-.po-unit-color--BOAR {
+.unit-color--BOAR {
   --unit-accent: #ca8a04;
 }
 
-.po-unit-color--EAGLE {
+.unit-color--EAGLE {
   --unit-accent: #7e22ce;
 }

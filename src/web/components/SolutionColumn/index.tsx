@@ -1,13 +1,13 @@
 import type React from 'react'
-import type { UnitType } from '../../../solver/types.js'
-import { UnitTag } from '../UnitTag'
+import { UNIT_METADATA } from '../App/index.js'
+import type { SolvedUnit } from '../SolutionPanel'
+import { UnitTile } from '../UnitTile'
 import './styles.css'
-import { UNITS } from '../../../solver/constants.js'
-import { getRandomId } from '../../helpers/getRandomId.js'
+import type { CSSProperties } from 'react'
 
 export interface SolutionColumnProps {
   title: string
-  units: UnitType[]
+  units: SolvedUnit[]
   total: number
 }
 
@@ -17,22 +17,33 @@ export const SolutionColumn: React.FC<SolutionColumnProps> = ({
   total,
 }) => {
   return (
-    <div className='po-solution-column'>
-      <div className='po-solution-header'>
-        <h4 className='po-solution-title'>{title}</h4>
-        <span className='po-solution-total'>Total: {total}</span>
+    <div className='solution-column'>
+      <div className='solution-header'>
+        <h4 className='solution-title'>{title}</h4>
+        <span className='solution-total'>Total: {total}</span>
       </div>
 
       {units.length === 0 ? (
-        <p className='po-solution-empty'>Empty army.</p>
+        <p className='solution-empty'>Empty army.</p>
       ) : (
-        <ul className='po-solution-list'>
-          {units.map(unit => (
-            <li key={`${unit}-${getRandomId()}`} className='po-solution-item'>
-              <UnitTag unit={unit} color={UNITS[unit].type} />
-            </li>
+        <div
+          className='unit-grid solution-list'
+          style={
+            {
+              '--columns-xl': 2,
+              '--columns-sm': 1,
+            } as CSSProperties
+          }
+        >
+          {units.map(entry => (
+            <UnitTile
+              key={entry.unit}
+              unit={UNIT_METADATA.find(meta => meta.id === entry.unit)!}
+              count={1}
+              score={entry.score}
+            />
           ))}
-        </ul>
+        </div>
       )}
     </div>
   )

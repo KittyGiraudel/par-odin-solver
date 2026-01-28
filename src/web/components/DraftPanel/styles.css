@@ -1,34 +1,28 @@
-.po-draft-panel {
-  background: #ffffff;
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-  border: 1px solid #e5e7eb;
-}
 
-.po-draft-title {
+.draft-title {
   margin-top: 0;
   margin-bottom: 0.75rem;
 }
 
-.po-draft-empty {
+.draft-empty {
   margin: 0;
   color: #4b5563;
 }
 
-.po-draft-list {
-  list-style: decimal;
-  padding-left: 1.25rem;
+.draft-list {
+  list-style: none;
+  padding-left: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
   gap: 0.4rem 0.75rem;
 }
 
-.po-draft-item {
+.draft-item {
   font-size: 0.9rem;
 }
 
-.po-draft-solve {
+.draft-solve {
   margin-top: 1rem;
   width: 100%;
   border-radius: 0.5rem;
@@ -38,19 +32,19 @@
   font-size: 0.95rem;
 }
 
-.po-draft-solve--enabled {
+.draft-solve--enabled {
   background: linear-gradient(90deg, #22c55e, #3b82f6);
   color: #020617;
   cursor: pointer;
 }
 
-.po-draft-solve--disabled {
+.draft-solve--disabled {
   background: #e5e7eb;
   color: #9ca3af;
   cursor: default;
 }
 
-.po-draft-error {
+.draft-error {
   margin-top: 0.75rem;
   color: #f97373;
   font-size: 0.9rem;

@@ -1,0 +1,23 @@
+.section {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid rgb(0 0 0 / 0.1);
+  container-name: column;
+  container-type: inline-size;
+}
+
+.section-title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.section-subtitle {
+  margin-top: -0.25rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.section-subtitle:last-child {
+  margin-bottom: 0;
+}

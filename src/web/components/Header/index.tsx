@@ -22,16 +22,16 @@ export const Header: React.FC<HeaderProps> = ({
   }
 
   return (
-    <header className='po-header'>
-      <div className='po-header-text'>
-        <h1 className='po-header-title'>Par Odin! Draft Solver</h1>
-        <p className='po-header-subtitle'>
+    <header className='header'>
+      <div className='header-text'>
+        <h1 className='header-title'>Par Odin! Draft Solver</h1>
+        <p className='header-subtitle'>
           Build a draft of units, then split it into two balanced armies.
         </p>
       </div>
 
-      <div className='po-header-controls'>
-        <label htmlFor='challenge-select' className='po-header-label'>
+      <div className='header-controls'>
+        <label htmlFor='challenge-select' className='header-label'>
           Load challenge:
         </label>
         <select
@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
             selectedChallengeIndex === '' ? '' : String(selectedChallengeIndex)
           }
           onChange={handleChange}
-          className='po-header-select'
+          className='header-select'
         >
           <option value=''>Custom draft</option>
           {challenges.map((challenge, index) => (
@@ -49,14 +49,10 @@ export const Header: React.FC<HeaderProps> = ({
             </option>
           ))}
         </select>
-        <button
-          type='button'
-          onClick={onRandomDraft}
-          className='po-header-random'
-        >
+        <button type='button' onClick={onRandomDraft} className='header-random'>
           Random draft
         </button>
-        <button type='button' onClick={onReset} className='po-header-reset'>
+        <button type='button' onClick={onReset} className='header-reset'>
           Reset
         </button>
       </div>

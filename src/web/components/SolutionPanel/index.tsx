@@ -4,10 +4,16 @@ import { SolutionColumn } from '../SolutionColumn'
 import { UnitTag } from '../UnitTag'
 import './styles.css'
 import { SINGLETON_UNITS } from '../App/index.js'
+import { Section } from '../Section/index.js'
+
+export interface SolvedUnit {
+  unit: UnitType
+  score: number
+}
 
 export interface SolveState {
-  armyA: UnitType[]
-  armyB: UnitType[]
+  armyA: SolvedUnit[]
+  armyB: SolvedUnit[]
   scoreA: number
   scoreB: number
 }
@@ -25,35 +31,39 @@ export const SolutionPanel: React.FC<SolutionPanelProps> = ({
     solution === null
       ? []
       : SINGLETON_UNITS.filter(
-          unit => solution.armyA.includes(unit) || solution.armyB.includes(unit)
+          unit =>
+            solution.armyA.some(entry => entry.unit === unit) ||
+            solution.armyB.some(entry => entry.unit === unit)
         )
 
   return (
-    <div className='po-solution-panel'>
-      <h3 className='po-solution-panel-title'>Solution</h3>
-
+    <Section
+      aria-label='Solution'
+      title='Solution'
+      subtitle={
+        !error && !solution
+          ? 'Solve a draft to see how it can be split into two balanced armies.'
+          : undefined
+      }
+    >
       {error ? (
-        <div className='po-solution-panel-error'>
-          <div className='po-solution-panel-error-icon' aria-hidden='true'>
+        <div className='solution-panel-error'>
+          <div className='solution-panel-error-icon' aria-hidden='true'>
             ⚠️
           </div>
-          <div className='po-solution-panel-error-body'>
-            <p className='po-solution-panel-error-title'>
+          <div className='solution-panel-error-body'>
+            <p className='solution-panel-error-title'>
               No balanced split for this draft.
             </p>
-            <p className='po-solution-panel-error-text'>
+            <p className='solution-panel-error-text'>
               There appears to be no solution for the given draft. Try tweaking
               the units or loading a different challenge.
             </p>
           </div>
         </div>
-      ) : !solution ? (
-        <p className='po-solution-panel-empty'>
-          Solve a draft to see how it can be split into two balanced armies.
-        </p>
-      ) : (
+      ) : !solution ? null : (
         <>
-          <div className='po-solution-panel-grid'>
+          <div className='solution-panel-grid'>
             <SolutionColumn
               title='Army A'
               units={solution.armyA}
@@ -67,11 +77,11 @@ export const SolutionPanel: React.FC<SolutionPanelProps> = ({
           </div>
 
           {sharedNeutrals.length > 0 && (
-            <div className='po-solution-panel-shared'>
-              <span className='po-solution-panel-shared-label'>
+            <div className='solution-panel-shared'>
+              <span className='solution-panel-shared-label'>
                 Shared neutrals
               </span>
-              <div className='po-solution-panel-shared-tags'>
+              <div className='solution-panel-shared-tags'>
                 {sharedNeutrals.map(unit => (
                   <UnitTag key={unit} unit={unit} color='BLACK' />
                 ))}
@@ -80,6 +90,6 @@ export const SolutionPanel: React.FC<SolutionPanelProps> = ({
           )}
         </>
       )}
-    </div>
+    </Section>
   )
 }

@@ -1,15 +1,21 @@
 import type React from 'react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { CHALLENGES, UNIT_TYPES, UNITS } from '../../../solver/constants.js'
 import { Solver } from '../../../solver/Solver.js'
 import type { UnitColor, UnitType } from '../../../solver/types.js'
 import { DraftPanel } from '../DraftPanel'
 import { Header } from '../Header'
-import type { SolveState } from '../SolutionPanel'
+import type { SolvedUnit, SolveState } from '../SolutionPanel'
 import { SolutionPanel } from '../SolutionPanel'
-import type { UnitMeta } from '../UnitsPanel'
-import { UnitsPanel } from '../UnitsPanel'
+import { UnitSelectorPanel } from '../UnitSelectorPanel/index.js'
 import './styles.css'
+
+export interface UnitMeta {
+  id: UnitType
+  color: 'WHITE' | 'BLACK'
+  label: string
+  description: string
+}
 
 const ALL_UNIT_TYPES: readonly UnitType[] = Object.keys(
   UNIT_TYPES
@@ -57,7 +63,7 @@ const describeUnit = (unit: UnitType): string => {
   throw new Error(`Unknown unit: ${unit}`)
 }
 
-const UNIT_METADATA: readonly UnitMeta[] = ALL_UNIT_TYPES.map(unit => ({
+export const UNIT_METADATA: readonly UnitMeta[] = ALL_UNIT_TYPES.map(unit => ({
   id: unit,
   color: UNITS[unit].type as UnitColor,
   label: unit,
@@ -69,21 +75,28 @@ export const SINGLETON_UNITS: readonly UnitType[] = ['BOAR', 'EAGLE']
 
 const sortDraft = (units: readonly UnitType[]): UnitType[] => {
   const order = ALL_UNIT_TYPES
-  return [...units].sort(
-    (a, b) => order.indexOf(a) - order.indexOf(b)
-  )
+  return [...units].sort((a, b) => order.indexOf(a) - order.indexOf(b))
 }
 
 const solveDraft = (units: readonly UnitType[]): SolveState => {
   const solver = new Solver(units)
-  const [armyA, armyB] = solver.solve()
+  const [armyAUnits, armyBUnits] = solver.solve()
+  const scoresA = solver.resolveUnits(armyAUnits)
+  const scoresB = solver.resolveUnits(armyBUnits)
 
-  return {
-    armyA,
-    armyB,
-    scoreA: solver.getScore(armyA),
-    scoreB: solver.getScore(armyB),
-  }
+  const armyA: SolvedUnit[] = armyAUnits.map((unit, index) => ({
+    unit,
+    score: scoresA[index] ?? 0,
+  }))
+  const armyB: SolvedUnit[] = armyBUnits.map((unit, index) => ({
+    unit,
+    score: scoresB[index] ?? 0,
+  }))
+
+  const scoreA = armyA.reduce((sum, entry) => sum + entry.score, 0)
+  const scoreB = armyB.reduce((sum, entry) => sum + entry.score, 0)
+
+  return { armyA, armyB, scoreA, scoreB }
 }
 
 export const App: React.FC = () => {
@@ -93,18 +106,6 @@ export const App: React.FC = () => {
   const [selectedChallengeIndex, setSelectedChallengeIndex] = useState<
     number | ''
   >('')
-
-  const countsByUnit = useMemo(
-    () =>
-      draft.reduce(
-        (acc: Record<UnitType, number>, unit) => ({
-          ...acc,
-          [unit]: (acc[unit] ?? 0) + 1,
-        }),
-        {} as Record<UnitType, number>
-      ),
-    [draft]
-  )
 
   const handleAddUnit = (unit: UnitType) => {
     setDraft(prev => {
@@ -177,7 +178,10 @@ export const App: React.FC = () => {
 
     while (nextDraft.length < length) {
       const candidate = all[Math.floor(Math.random() * all.length)]
-      if (SINGLETON_UNITS.includes(candidate) && nextDraft.includes(candidate)) {
+      if (
+        SINGLETON_UNITS.includes(candidate) &&
+        nextDraft.includes(candidate)
+      ) {
         continue
       }
       nextDraft.push(candidate)
@@ -190,8 +194,8 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className='po-app-root'>
-      <div className='po-app-shell'>
+    <div className='app-root'>
+      <div className='app-shell'>
         <Header
           selectedChallengeIndex={selectedChallengeIndex}
           challenges={PRESET_CHALLENGES}
@@ -200,29 +204,21 @@ export const App: React.FC = () => {
           onRandomDraft={handleRandomDraft}
         />
 
-        <main
-          className='po-app-main-grid'
-          aria-label='Draft and solution layout'
-        >
-          <UnitsPanel
+        <main className='app-main-grid' aria-label='Draft and solution layout'>
+          <DraftPanel
+            draft={draft}
             units={UNIT_METADATA}
-            countsByUnit={countsByUnit}
+            onSolve={handleSolve}
+            canSolve={draft.length >= 2}
+          />
+
+          <SolutionPanel solution={solution} error={error} />
+
+          <UnitSelectorPanel
+            draft={draft}
             onAddUnit={handleAddUnit}
             onRemoveUnit={handleRemoveUnit}
           />
-
-          <section
-            className='po-app-right-column'
-            aria-label='Draft and solution'
-          >
-            <DraftPanel
-              draft={draft}
-              units={UNIT_METADATA}
-              onSolve={handleSolve}
-              canSolve={draft.length >= 2}
-            />
-            <SolutionPanel solution={solution} error={error} />
-          </section>
         </main>
       </div>
     </div>
