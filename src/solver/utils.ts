@@ -1,4 +1,5 @@
-import { UNITS } from './constants.js'
+import chalk from 'chalk'
+import { UNIT_COLORS, UNIT_TYPES, UNITS } from './constants.js'
 import type { UnitColor, UnitType } from './types.js'
 
 export const resolveUnitScore = (
@@ -66,3 +67,45 @@ export const occurrences = (units: readonly UnitType[]) =>
   )
 
 export const mapValues = <K, V>(map: Map<K, V>): V[] => Array.from(map.values())
+
+export const getUnitColor = (unit: UnitType) => {
+  const unitDef = UNITS[unit]
+
+  if (unitDef.type === UNIT_COLORS.WHITE) {
+    // White units with individual colors
+    switch (unit) {
+      case UNIT_TYPES.HERO:
+        return chalk.magenta(unit)
+      case UNIT_TYPES.CAPTAIN:
+        return chalk.gray(unit)
+      case UNIT_TYPES.SOLDIER:
+        return chalk.green(unit)
+      case UNIT_TYPES.CURSED:
+        return chalk.yellow(unit)
+      case UNIT_TYPES.MAGE:
+        return chalk.cyan(unit)
+      case UNIT_TYPES.TRAITOR:
+        return chalk.red(unit)
+      default:
+        return chalk.white(unit)
+    }
+  } else {
+    // Black units with individual colors
+    switch (unit) {
+      case UNIT_TYPES.WOLF:
+        return chalk.bgBlue(unit)
+      case UNIT_TYPES.SNAKE:
+        return chalk.bgGreen(unit)
+      case UNIT_TYPES.HORSE:
+        return chalk.bgGray(unit)
+      case UNIT_TYPES.DRAGON:
+        return chalk.bgRed(unit)
+      case UNIT_TYPES.BOAR:
+        return chalk.bgYellow(unit)
+      case UNIT_TYPES.EAGLE:
+        return chalk.bgMagenta(unit)
+      default:
+        return chalk.black(unit)
+    }
+  }
+}
