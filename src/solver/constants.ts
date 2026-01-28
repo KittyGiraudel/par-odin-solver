@@ -1,5 +1,4 @@
-import chalk from 'chalk'
-import type { UnitsMap, UnitType } from './types.js'
+import type { UnitsMap, UnitType } from './types.ts'
 import {
   is,
   isnt,
@@ -51,32 +50,27 @@ export const UNITS: UnitsMap = {
   [HERO]: {
     type: WHITE,
     value: () => +3,
-    color: chalk.magenta,
   },
   // The Captain has a static value of +2.
   [CAPTAIN]: {
     type: WHITE,
     value: () => +2,
-    color: chalk.white,
   },
   // The Soldier has a static value of +1.
   [SOLDIER]: {
     type: WHITE,
     value: () => +1,
-    color: chalk.green,
   },
   // The Cursed has a static value of -1.
   [CURSED]: {
     type: WHITE,
     value: () => -1,
-    color: chalk.yellow,
   },
   // The Mage has a dynamic value equal to the amount of non-mage white units.
   [MAGE]: {
     type: WHITE,
     value: units =>
       units.filter(is('color', WHITE)).filter(isnt('type', MAGE)).length,
-    color: chalk.cyan,
   },
   // The Traitor has a base value of +1, and can diminish a Hero’s value by -3. However, a given
   // Traitor can only affect 1 Hero, so the value resolution relies on indices to know which Hero
@@ -95,7 +89,6 @@ export const UNITS: UnitsMap = {
 
       return +1 + (isPaired ? -3 : 0)
     },
-    color: chalk.red,
   },
   // The Wolf has a dynamic value equal to the *double* of the highest positive white unit. Note
   // that the notion of positivity is unnecessary to handle since all white units can only yield
@@ -109,7 +102,6 @@ export const UNITS: UnitsMap = {
         .map((unit, i) => resolveUnitScore(unit, i, units))
         .sort((a, b) => (a > b ? -1 : a < b ? 1 : 0))
         .pop() ?? 0) * 2,
-    color: chalk.bgBlue,
   },
   // The Snake is some kind of reverse Wolf, with a dynamic value equal to the inverse of the
   // highest positive white unit. There again, the notion of positivity is unnecessary to handle.
@@ -118,20 +110,17 @@ export const UNITS: UnitsMap = {
   [SNAKE]: {
     type: BLACK,
     value: (units, index) => (UNITS.WOLF.value(units, index) / 2) * -1,
-    color: chalk.bgGreen,
   },
   // The Horse has a dynamic value equal to the amount of white units.
   [HORSE]: {
     type: BLACK,
     value: units => units.filter(is('color', WHITE)).length,
-    color: chalk.bgGrey,
   },
   // The Dragon is like a reverse Horse, with a dynamic value equal to *negative* the amount of
   // white units.
   [DRAGON]: {
     type: BLACK,
     value: (units, index) => UNITS.HORSE.value(units, index) * -1,
-    color: chalk.bgRed,
   },
   // The Boar increases the value of non-unique white units by +1, so it has a dynamic value that
   // varies based on the amount of duplicate white units. Note that while the Boar does not take
@@ -145,7 +134,6 @@ export const UNITS: UnitsMap = {
           c => c >= 2
         )
       ),
-    color: chalk.bgYellow,
   },
   // The Eagle is essentially the reverse Boar, decreasing the score by -1 for every non-unique
   // white unit. Same as the Boar, while the Eagle does not take side per se because it impacts both
@@ -154,7 +142,6 @@ export const UNITS: UnitsMap = {
   [EAGLE]: {
     type: BLACK,
     value: (units, index) => UNITS.BOAR.value(units, index) * -1,
-    color: chalk.bgMagenta,
   },
 }
 

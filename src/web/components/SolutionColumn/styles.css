@@ -1,0 +1,40 @@
+.po-solution-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.po-solution-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.po-solution-title {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.po-solution-total {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.po-solution-empty {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.po-solution-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.po-solution-item {}

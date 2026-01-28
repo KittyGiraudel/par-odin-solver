@@ -33,6 +33,21 @@ npm install
 npm test
 ```
 
+## Browser UI
+
+There is a small React + Vite UI that lets you build a draft and have it solved visually in the browser.
+
+```sh
+npm install
+npm run dev:web
+```
+
+Then open the printed local URL in your browser. From there you can:
+
+- Build a custom draft by adding and removing unit types.
+- Load any of the existing challenges as a starting draft.
+- Run the solver to see both armies, along with their total scores.
+
 ## How It Works
 
 The solver uses a permutation-based approach to find solutions:

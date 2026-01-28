@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import { UNIT_TYPES, UNITS } from './constants.js'
 import type { UnitType } from './types.js'
 import { getPossibilities, resolveUnitScore, sum } from './utils.js'
@@ -22,8 +21,14 @@ export class Solver {
     )
 
     for (const [A, B] of getPossibilities(unitsWithoutNeutrals)) {
-      if (this.units.includes(BOAR)) A.push(BOAR), B.push(BOAR)
-      if (this.units.includes(EAGLE)) A.push(EAGLE), B.push(EAGLE)
+      if (this.units.includes(BOAR)) {
+        A.push(BOAR)
+        B.push(BOAR)
+      }
+      if (this.units.includes(EAGLE)) {
+        A.push(EAGLE)
+        B.push(EAGLE)
+      }
 
       A.sort(this.sortUnits)
       B.sort(this.sortUnits)
@@ -38,16 +43,16 @@ export class Solver {
     return units
       .map((unit, index) =>
         withValues
-          ? `${UNITS[unit].color(unit)} (${UNITS[unit].value(units, index)})`
-          : UNITS[unit].color(unit)
+          ? `${unit} (${UNITS[unit].value(units, index)})`
+          : unit
       )
       .join(withValues ? ' + ' : ', ')
   }
 
   display([armyA, armyB]: [UnitType[], UnitType[]]) {
     const solution = `${this.displayUnits(armyA, true)} === ${this.displayUnits(armyB, true)}`
-    console.log(chalk.bold('Draft: ') + this.displayUnits(this.units, false))
-    console.log(chalk.bold('Solution: ') + chalk.grey(solution))
+    console.log(`Draft: ${this.displayUnits(this.units, false)}`)
+    console.log(`Solution: ${solution}`)
   }
 
   sortUnits(A: UnitType, B: UnitType): number {

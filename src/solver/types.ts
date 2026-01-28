@@ -1,4 +1,3 @@
-import type { ChalkInstance } from 'chalk'
 import type { UNIT_COLORS, UNIT_TYPES } from './constants.js'
 
 export type UnitType = keyof typeof UNIT_TYPES
@@ -13,7 +12,6 @@ export type UnitValueFunction = (
 export interface UnitDefinition {
   type: UnitColor
   value: UnitValueFunction
-  color: ChalkInstance
 }
 
 export type UnitsMap = {

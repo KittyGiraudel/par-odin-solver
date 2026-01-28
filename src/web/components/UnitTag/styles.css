@@ -1,0 +1,27 @@
+.po-unit-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.po-unit-tag-emoji {
+  margin-right: 0.25rem;
+}
+
+.po-unit-tag--white {
+  background: #f9fafb;
+  color: var(--unit-accent, #111827);
+  border: 1px solid rgb(0 0 0 / 0.15);
+}
+
+.po-unit-tag--black {
+  background: var(--unit-accent, #111827);
+  color: #f9fafb;
+  border: 1px solid rgb(0 0 0 / 0.2);
+}
+

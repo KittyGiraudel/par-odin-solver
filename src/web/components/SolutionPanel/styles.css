@@ -1,0 +1,80 @@
+.po-solution-panel {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+  flex: 1;
+}
+
+.po-solution-panel-title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.po-solution-panel-empty {
+  margin: 0;
+  color: #4b5563;
+}
+
+.po-solution-panel-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 0.9rem;
+  border-radius: 0.75rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.po-solution-panel-error-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.po-solution-panel-error-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.po-solution-panel-error-title {
+  margin: 0;
+  font-weight: 600;
+  color: #b91c1c;
+}
+
+.po-solution-panel-error-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #7f1d1d;
+}
+
+.po-solution-panel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.po-solution-panel-shared {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.po-solution-panel-shared-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+}
+
+.po-solution-panel-shared-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
