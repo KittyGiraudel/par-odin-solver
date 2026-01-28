@@ -1,17 +1,25 @@
+import assert from 'node:assert'
+import test from 'node:test'
 import chalk from 'chalk'
 import { CHALLENGES } from './constants.js'
-import { displayUnits, solve } from './utils.js'
+import { Solver } from './Solver.js'
 
 CHALLENGES.forEach((units, index) => {
-  const key = chalk.bold.underline(`Challenge #${index + 1}`)
+  test(`Challenge #${index + 1}`, () => {
+    const solver = new Solver(units)
+    const key = chalk.bold.underline(`Challenge #${index + 1}`)
 
-  console.time(key)
-  const [armyA, armyB] = solve(units)
-  console.timeEnd(key)
+    console.time(key)
+    const solution = solver.solve()
+    console.timeEnd(key)
 
-  const solution = `${displayUnits(armyA, true)} === ${displayUnits(armyB, true)}`
+    assert.strictEqual(
+      solver.getScore(solution[0]),
+      solver.getScore(solution[1]),
+      `Both armies should have equal sums`
+    )
 
-  console.log(chalk.bold('Draft: ') + displayUnits(units, false))
-  console.log(chalk.bold('Solution: ') + chalk.grey(solution))
-  console.log('')
+    solver.display(solution)
+    console.log('')
+  })
 })

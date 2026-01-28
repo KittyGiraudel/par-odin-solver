@@ -1,11 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "test:build": "node --loader ts-node/esm --test dist/tests.js",
-    "dev": "tsx src/index.ts",
-    "test": "tsx src/tests.ts",
+    "test": "tsx src/index.ts",
     "format": "biome format --write src/*.ts",
     "lint": "biome lint src/*.ts",
     "check": "biome check --write src/*.ts"

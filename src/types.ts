@@ -1,5 +1,5 @@
 import type { ChalkInstance } from 'chalk'
-import type { UNIT_COLORS, UNIT_TYPES } from './constants.ts'
+import type { UNIT_COLORS, UNIT_TYPES } from './constants.js'
 
 export type UnitType = keyof typeof UNIT_TYPES
 

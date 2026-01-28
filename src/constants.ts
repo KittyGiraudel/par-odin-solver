@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import type { UnitsMap, UnitType } from './types.ts'
+import type { UnitsMap, UnitType } from './types.js'
 import {
   is,
   isnt,
@@ -7,7 +7,7 @@ import {
   occurrences,
   resolveUnitScore,
   sum,
-} from './utils.ts'
+} from './utils.js'
 
 export const UNIT_COLORS = {
   WHITE: 'WHITE' as const,
