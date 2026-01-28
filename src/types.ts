@@ -1,21 +1,21 @@
 import type { ChalkInstance } from 'chalk'
-import type { SYMBOL_COLORS, SYMBOL_TYPES } from './constants.ts'
+import type { UNIT_COLORS, UNIT_TYPES } from './constants.ts'
 
-export type SymbolType = keyof typeof SYMBOL_TYPES
+export type UnitType = keyof typeof UNIT_TYPES
 
-export type SymbolColor = keyof typeof SYMBOL_COLORS
+export type UnitColor = keyof typeof UNIT_COLORS
 
-export type SymbolValueFunction = (
-  symbols: readonly SymbolType[],
+export type UnitValueFunction = (
+  units: readonly UnitType[],
   index: number
 ) => number
 
-export interface SymbolDefinition {
-  type: SymbolColor
-  value: SymbolValueFunction
+export interface UnitDefinition {
+  type: UnitColor
+  value: UnitValueFunction
   color: ChalkInstance
 }
 
-export type SymbolsMap = {
-  [K in SymbolType]: SymbolDefinition
+export type UnitsMap = {
+  [K in UnitType]: UnitDefinition
 }

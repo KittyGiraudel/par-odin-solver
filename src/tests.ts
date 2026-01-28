@@ -1,7 +1,7 @@
 import assert from 'node:assert'
 import test from 'node:test'
-import { SYMBOL_TYPES } from './constants.js'
-import { resolveSymbol, resolveSymbols, solve } from './utils.js'
+import { UNIT_TYPES } from './constants.js'
+import { resolveUnitScore, resolveUnitsScore, solve } from './utils.js'
 
 const {
   HERO,
@@ -16,7 +16,7 @@ const {
   HORSE,
   BOAR,
   EAGLE,
-} = SYMBOL_TYPES
+} = UNIT_TYPES
 
 test('Should throw for unsolvable challenges', () => {
   assert.throws(() =>
@@ -73,30 +73,33 @@ test('Should handle the Wolf', () => {
     WOLF,
   ])
   // Verify the solution is valid (both armies have equal sums)
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
   // Multiple valid solutions exist - just verify it's a valid split
   assert.strictEqual(
     solution[0].length + solution[1].length,
     8,
-    'Solution should contain all symbols'
+    'Solution should contain all units'
   )
 })
 
 test('Should not penalize Traitors without Heroes', () => {
-  assert.deepEqual(resolveSymbols([TRAITOR, TRAITOR]), [1, 1])
+  assert.deepEqual(resolveUnitsScore([TRAITOR, TRAITOR]), [1, 1])
 })
 
 test('Should penalize only as many Traitors as there are Heroes', () => {
   assert.deepEqual(
-    resolveSymbols([HERO, HERO, TRAITOR, TRAITOR, TRAITOR]),
+    resolveUnitsScore([HERO, HERO, TRAITOR, TRAITOR, TRAITOR]),
     [3, 3, -2, -2, 1]
   )
 })
 
 test('Should penalize Traitors when there are more Heroes than Traitors', () => {
-  assert.deepEqual(resolveSymbols([HERO, HERO, HERO, TRAITOR]), [3, 3, 3, -2])
+  assert.deepEqual(
+    resolveUnitsScore([HERO, HERO, HERO, TRAITOR]),
+    [3, 3, 3, -2]
+  )
 })
 
 // Challenge #1 (already covered by "Should handle the basic rules")
@@ -236,14 +239,14 @@ test('Challenge #19', () => {
     SNAKE,
   ])
   // Verify the solution is valid (both armies have equal sums)
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
   // Multiple valid solutions exist - just verify it's a valid split
   assert.strictEqual(
     solution[0].length + solution[1].length,
     8,
-    'Solution should contain all symbols'
+    'Solution should contain all units'
   )
 })
 
@@ -331,14 +334,14 @@ test('Should handle the Boar - value for duplicate white dice', () => {
   // Boar should add +1 for each duplicate white die
   // [HERO, HERO, SOLDIER, BOAR] -> 2 HERO (duplicates) = +2 total
   const army = [HERO, HERO, SOLDIER, BOAR] as const
-  const boarValue = resolveSymbol(BOAR, 3, army)
+  const boarValue = resolveUnitScore(BOAR, 3, army)
   assert.strictEqual(boarValue, 2, 'Boar should add +2 for 2 duplicate HERO')
 })
 
 test('Should handle the Boar - no value for unique white dice', () => {
   // Boar should add 0 when all white dice are unique
   const army = [HERO, SOLDIER, CAPTAIN, BOAR] as const
-  const boarValue = resolveSymbol(BOAR, 3, army)
+  const boarValue = resolveUnitScore(BOAR, 3, army)
   assert.strictEqual(boarValue, 0, 'Boar should add 0 when no duplicates')
 })
 
@@ -346,7 +349,7 @@ test('Should handle the Boar - multiple duplicate types', () => {
   // Multiple duplicate types should all count
   // [HERO, HERO, HERO, CAPTAIN, CAPTAIN, SOLDIER, BOAR] -> 3 HERO + 2 CAPTAIN = +5 total
   const army = [HERO, HERO, HERO, CAPTAIN, CAPTAIN, SOLDIER, BOAR] as const
-  const boarValue = resolveSymbol(BOAR, 6, army)
+  const boarValue = resolveUnitScore(BOAR, 6, army)
   assert.strictEqual(
     boarValue,
     5,
@@ -358,8 +361,8 @@ test('Should handle the Boar - boar value in army context', () => {
   // Boar's value depends on the army it's in
   const army1 = [HERO, HERO, BOAR] as const
   const army2 = [SOLDIER, BOAR] as const
-  const boarValue1 = resolveSymbol(BOAR, 2, army1)
-  const boarValue2 = resolveSymbol(BOAR, 1, army2)
+  const boarValue1 = resolveUnitScore(BOAR, 2, army1)
+  const boarValue2 = resolveUnitScore(BOAR, 1, army2)
   assert.strictEqual(boarValue1, 2, 'Boar in army with 2 HERO should be +2')
   assert.strictEqual(boarValue2, 0, 'Boar in army with unique dice should be 0')
 })
@@ -380,15 +383,15 @@ test('Challenge #28 (Boar)', () => {
   assert.strictEqual(
     solution[0].length + solution[1].length,
     9,
-    'Solution should contain all symbols including boar in both armies'
+    'Solution should contain all units including boar in both armies'
   )
   assert.ok(
     solution[0].includes(BOAR) && solution[1].includes(BOAR),
     'Boar should be in both armies'
   )
   // Verify the solution is valid (both armies have equal sums)
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -407,15 +410,15 @@ test('Challenge #29 (Boar)', () => {
   assert.strictEqual(
     solution[0].length + solution[1].length,
     9,
-    'Solution should contain all symbols including boar in both armies'
+    'Solution should contain all units including boar in both armies'
   )
   assert.ok(
     solution[0].includes(BOAR) && solution[1].includes(BOAR),
     'Boar should be in both armies'
   )
   // Verify the solution is valid (both armies have equal sums)
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -434,15 +437,15 @@ test('Challenge #30 (Boar)', () => {
   assert.strictEqual(
     solution[0].length + solution[1].length,
     9,
-    'Solution should contain all symbols including boar in both armies'
+    'Solution should contain all units including boar in both armies'
   )
   assert.ok(
     solution[0].includes(BOAR) && solution[1].includes(BOAR),
     'Boar should be in both armies'
   )
   // Verify the solution is valid (both armies have equal sums)
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -450,7 +453,7 @@ test('Should handle the Eagle - value for duplicate white dice', () => {
   // Eagle should subtract -1 for each duplicate white die
   // [HERO, HERO, SOLDIER, EAGLE] -> 2 HERO (duplicates) = -2 total
   const army = [HERO, HERO, SOLDIER, EAGLE] as const
-  const eagleValue = resolveSymbol(EAGLE, 3, army)
+  const eagleValue = resolveUnitScore(EAGLE, 3, army)
   assert.strictEqual(
     eagleValue,
     -2,
@@ -461,7 +464,7 @@ test('Should handle the Eagle - value for duplicate white dice', () => {
 test('Should handle the Eagle - no value for unique white dice', () => {
   // Eagle should subtract 0 when all white dice are unique
   const army = [HERO, SOLDIER, CAPTAIN, EAGLE] as const
-  const eagleValue = resolveSymbol(EAGLE, 3, army)
+  const eagleValue = resolveUnitScore(EAGLE, 3, army)
   assert.ok(
     eagleValue === 0 || eagleValue === 0,
     'Eagle should subtract 0 when no duplicates'
@@ -472,7 +475,7 @@ test('Should handle the Eagle - multiple duplicate types', () => {
   // Multiple duplicate types should all count
   // [HERO, HERO, HERO, CAPTAIN, CAPTAIN, SOLDIER, EAGLE] -> 3 HERO + 2 CAPTAIN = -5 total
   const army = [HERO, HERO, HERO, CAPTAIN, CAPTAIN, SOLDIER, EAGLE] as const
-  const eagleValue = resolveSymbol(EAGLE, 6, army)
+  const eagleValue = resolveUnitScore(EAGLE, 6, army)
   assert.strictEqual(
     eagleValue,
     -5,
@@ -484,8 +487,8 @@ test('Should handle the Eagle - eagle value in army context', () => {
   // Eagle's value depends on the army it's in
   const army1 = [HERO, HERO, EAGLE] as const
   const army2 = [SOLDIER, EAGLE] as const
-  const eagleValue1 = resolveSymbol(EAGLE, 2, army1)
-  const eagleValue2 = resolveSymbol(EAGLE, 1, army2)
+  const eagleValue1 = resolveUnitScore(EAGLE, 2, army1)
+  const eagleValue2 = resolveUnitScore(EAGLE, 1, army2)
   assert.strictEqual(eagleValue1, -2, 'Eagle in army with 2 HERO should be -2')
   assert.ok(
     eagleValue2 === 0 || eagleValue2 === 0,
@@ -498,8 +501,8 @@ test('Should handle the Eagle - opposite of boar', () => {
   const army = [HERO, HERO, SOLDIER] as const
   const armyWithBoar = [...army, BOAR] as const
   const armyWithEagle = [...army, EAGLE] as const
-  const boarValue = resolveSymbol(BOAR, 3, armyWithBoar)
-  const eagleValue = resolveSymbol(EAGLE, 3, armyWithEagle)
+  const boarValue = resolveUnitScore(BOAR, 3, armyWithBoar)
+  const eagleValue = resolveUnitScore(EAGLE, 3, armyWithEagle)
   assert.strictEqual(
     eagleValue,
     -boarValue,
@@ -521,14 +524,14 @@ test('Challenge #31 (Eagle)', () => {
   assert.strictEqual(
     solution[0].length + solution[1].length,
     9,
-    'Solution should contain all symbols including eagle in both armies'
+    'Solution should contain all units including eagle in both armies'
   )
   assert.ok(
     solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
     'Eagle should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -546,14 +549,14 @@ test('Challenge #32 (Eagle)', () => {
   assert.strictEqual(
     solution[0].length + solution[1].length,
     9,
-    'Solution should contain all symbols including eagle in both armies'
+    'Solution should contain all units including eagle in both armies'
   )
   assert.ok(
     solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
     'Eagle should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -571,14 +574,14 @@ test('Challenge #33 (Eagle)', () => {
   assert.strictEqual(
     solution[0].length + solution[1].length,
     9,
-    'Solution should contain all symbols including eagle in both armies'
+    'Solution should contain all units including eagle in both armies'
   )
   assert.ok(
     solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
     'Eagle should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -594,8 +597,8 @@ test('Challenge #34', () => {
     HORSE,
     BOAR,
   ])
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -611,8 +614,8 @@ test('Challenge #35', () => {
     WOLF,
     DRAGON,
   ])
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -632,8 +635,8 @@ test('Challenge #36', () => {
     solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
     'Eagle should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -653,8 +656,8 @@ test('Challenge #37', () => {
     solution[0].includes(BOAR) && solution[1].includes(BOAR),
     'Boar should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -674,8 +677,8 @@ test('Challenge #38', () => {
     solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
     'Eagle should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -691,8 +694,8 @@ test('Challenge #39', () => {
     WOLF,
     HORSE,
   ])
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -708,8 +711,8 @@ test('Challenge #40', () => {
     SNAKE,
     DRAGON,
   ])
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -729,8 +732,8 @@ test('Challenge #41', () => {
     solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
     'Eagle should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -750,8 +753,8 @@ test('Challenge #42', () => {
     solution[0].includes(BOAR) && solution[1].includes(BOAR),
     'Boar should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -771,8 +774,8 @@ test('Challenge #43', () => {
     solution[0].includes(BOAR) && solution[1].includes(BOAR),
     'Boar should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -788,8 +791,8 @@ test('Challenge #44', () => {
     WOLF,
     SNAKE,
   ])
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -809,8 +812,8 @@ test('Challenge #45', () => {
     solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
     'Eagle should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -826,8 +829,8 @@ test('Challenge #46', () => {
     WOLF,
     WOLF,
   ])
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -847,8 +850,8 @@ test('Challenge #47', () => {
     solution[0].includes(BOAR) && solution[1].includes(BOAR),
     'Boar should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -868,8 +871,8 @@ test('Challenge #48', () => {
     solution[0].includes(EAGLE) && solution[1].includes(EAGLE),
     'Eagle should be in both armies'
   )
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -885,8 +888,8 @@ test('Challenge #49', () => {
     WOLF,
     SNAKE,
   ])
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })
 
@@ -902,7 +905,7 @@ test('Challenge #50', () => {
     SNAKE,
     HORSE,
   ])
-  const sumA = resolveSymbols(solution[0]).reduce((a, b) => a + b, 0)
-  const sumB = resolveSymbols(solution[1]).reduce((a, b) => a + b, 0)
+  const sumA = resolveUnitsScore(solution[0]).reduce((a, b) => a + b, 0)
+  const sumB = resolveUnitsScore(solution[1]).reduce((a, b) => a + b, 0)
   assert.strictEqual(sumA, sumB, 'Both armies should have equal sums')
 })

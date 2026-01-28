@@ -1,22 +1,20 @@
 import chalk from 'chalk'
-import type { SymbolsMap as SymbolsDefinition, SymbolType } from './types.ts'
+import type { UnitsMap, UnitType } from './types.ts'
 import {
-  indices,
   is,
   isnt,
-  isWhite,
-  mapValues as mValues,
-  mapOccurences as occurrences,
-  resolveSymbol,
+  mapValues,
+  occurrences,
+  resolveUnitScore,
   sum,
 } from './utils.ts'
 
-export const SYMBOL_COLORS = {
+export const UNIT_COLORS = {
   WHITE: 'WHITE' as const,
   BLACK: 'BLACK' as const,
 }
 
-export const SYMBOL_TYPES = {
+export const UNIT_TYPES = {
   HERO: 'HERO' as const,
   CAPTAIN: 'CAPTAIN' as const,
   SOLDIER: 'SOLDIER' as const,
@@ -29,83 +27,6 @@ export const SYMBOL_TYPES = {
   DRAGON: 'DRAGON' as const,
   BOAR: 'BOAR' as const,
   EAGLE: 'EAGLE' as const,
-}
-
-export const SYMBOLS: SymbolsDefinition = {
-  [SYMBOL_TYPES.HERO]: {
-    type: SYMBOL_COLORS.WHITE,
-    value: () => +3,
-    color: chalk.magenta,
-  },
-  [SYMBOL_TYPES.CAPTAIN]: {
-    type: SYMBOL_COLORS.WHITE,
-    value: () => +2,
-    color: chalk.white,
-  },
-  [SYMBOL_TYPES.SOLDIER]: {
-    type: SYMBOL_COLORS.WHITE,
-    value: () => +1,
-    color: chalk.green,
-  },
-  [SYMBOL_TYPES.CURSED]: {
-    type: SYMBOL_COLORS.WHITE,
-    value: () => -1,
-    color: chalk.yellow,
-  },
-  [SYMBOL_TYPES.MAGE]: {
-    type: SYMBOL_COLORS.WHITE,
-    value: symbols => symbols.filter(isWhite).filter(isnt(MAGE)).length,
-    color: chalk.cyan,
-  },
-  [SYMBOL_TYPES.TRAITOR]: {
-    type: SYMBOL_COLORS.WHITE,
-    value: (symbols, index) => {
-      const heroes = symbols.filter(is(HERO))
-      const traitors = indices(symbols, TRAITOR)
-      const isPaired =
-        traitors.indexOf(index) > -1 &&
-        traitors.indexOf(index) < Math.min(heroes.length, traitors.length)
-
-      return +1 + (isPaired ? -3 : 0)
-    },
-    color: chalk.red,
-  },
-  [SYMBOL_TYPES.WOLF]: {
-    type: SYMBOL_COLORS.BLACK,
-    value: symbols =>
-      (symbols
-        .filter(isWhite)
-        .map((symbol, i) => resolveSymbol(symbol, i, symbols))
-        .sort((a, b) => (a > b ? -1 : a < b ? 1 : 0))
-        .pop() ?? 0) * 2,
-    color: chalk.bgBlue,
-  },
-  [SYMBOL_TYPES.SNAKE]: {
-    type: SYMBOL_COLORS.BLACK,
-    value: (symbols, index) => (SYMBOLS.WOLF.value(symbols, index) / 2) * -1, // Reverse(ish) wolf
-    color: chalk.bgGreen,
-  },
-  [SYMBOL_TYPES.HORSE]: {
-    type: SYMBOL_COLORS.BLACK,
-    value: symbols => symbols.filter(isWhite).length,
-    color: chalk.bgGrey,
-  },
-  [SYMBOL_TYPES.DRAGON]: {
-    type: SYMBOL_COLORS.BLACK,
-    value: (symbols, index) => SYMBOLS.HORSE.value(symbols, index) * -1, // Reverse horse
-    color: chalk.bgRed,
-  },
-  [SYMBOL_TYPES.BOAR]: {
-    type: SYMBOL_COLORS.BLACK,
-    value: symbols =>
-      sum(mValues(occurrences(symbols.filter(isWhite))).filter(c => c >= 2)),
-    color: chalk.bgYellow,
-  },
-  [SYMBOL_TYPES.EAGLE]: {
-    type: SYMBOL_COLORS.BLACK,
-    value: (symbols, index) => SYMBOLS.BOAR.value(symbols, index) * -1, // Reverse boar
-    color: chalk.bgMagenta,
-  },
 }
 
 const {
@@ -121,9 +42,94 @@ const {
   HORSE,
   BOAR,
   EAGLE,
-} = SYMBOL_TYPES
+} = UNIT_TYPES
+const { WHITE, BLACK } = UNIT_COLORS
 
-export const CHALLENGES: SymbolType[][] = [
+export const UNITS: UnitsMap = {
+  [HERO]: {
+    type: WHITE,
+    value: () => +3,
+    color: chalk.magenta,
+  },
+  [CAPTAIN]: {
+    type: WHITE,
+    value: () => +2,
+    color: chalk.white,
+  },
+  [SOLDIER]: {
+    type: WHITE,
+    value: () => +1,
+    color: chalk.green,
+  },
+  [CURSED]: {
+    type: WHITE,
+    value: () => -1,
+    color: chalk.yellow,
+  },
+  [MAGE]: {
+    type: WHITE,
+    value: units =>
+      units.filter(is('color', WHITE)).filter(isnt('type', MAGE)).length,
+    color: chalk.cyan,
+  },
+  [TRAITOR]: {
+    type: WHITE,
+    value: (units, index) => {
+      const heroes = units.filter(is('type', HERO))
+      const traitors = units
+        .map((unit, pos) => (is('type', unit)(TRAITOR) ? pos : null))
+        .filter((position): position is number => position !== null)
+      const isPaired =
+        traitors.indexOf(index) > -1 &&
+        traitors.indexOf(index) < Math.min(heroes.length, traitors.length)
+
+      return +1 + (isPaired ? -3 : 0)
+    },
+    color: chalk.red,
+  },
+  [WOLF]: {
+    type: BLACK,
+    value: units =>
+      (units
+        .filter(is('color', WHITE))
+        .map((unit, i) => resolveUnitScore(unit, i, units))
+        .sort((a, b) => (a > b ? -1 : a < b ? 1 : 0))
+        .pop() ?? 0) * 2,
+    color: chalk.bgBlue,
+  },
+  [SNAKE]: {
+    type: BLACK,
+    value: (units, index) => (UNITS.WOLF.value(units, index) / 2) * -1, // Reverse(ish) wolf
+    color: chalk.bgGreen,
+  },
+  [HORSE]: {
+    type: BLACK,
+    value: units => units.filter(is('color', WHITE)).length,
+    color: chalk.bgGrey,
+  },
+  [DRAGON]: {
+    type: BLACK,
+    value: (units, index) => UNITS.HORSE.value(units, index) * -1, // Reverse horse
+    color: chalk.bgRed,
+  },
+  [BOAR]: {
+    type: BLACK,
+    value: units =>
+      sum(
+        mapValues(occurrences(units.filter(is('color', WHITE)))).filter(
+          c => c >= 2
+        )
+      ),
+    color: chalk.bgYellow,
+  },
+  [EAGLE]: {
+    type: BLACK,
+    value: (units, index) => UNITS.BOAR.value(units, index) * -1, // Reverse boar
+    color: chalk.bgMagenta,
+  },
+}
+
+export const CHALLENGES: UnitType[][] = [
   [HERO, HERO, HERO, CAPTAIN, SOLDIER, SOLDIER, SOLDIER],
   [HERO, HERO, CAPTAIN, CAPTAIN, CAPTAIN, CAPTAIN, TRAITOR],
   [HERO, HERO, HERO, CAPTAIN, CAPTAIN, CAPTAIN, CURSED],
