@@ -5,12 +5,11 @@ import { createPortal } from 'react-dom'
 import { CHALLENGES, UNIT_TYPES, UNITS } from '../../../solver/constants.js'
 import { Solver } from '../../../solver/Solver.js'
 import type { UnitColor, UnitType } from '../../../solver/types.js'
-import { DraftPanel } from '../DraftPanel'
+import { DraftPanel } from '../DraftPanel/index.js'
 import { Header } from '../Header'
 import { RulesDialog } from '../RulesDialog'
 import type { SolvedUnit, SolveState } from '../SolutionPanel'
 import { SolutionPanel } from '../SolutionPanel'
-import { UnitSelectorPanel } from '../UnitSelectorPanel/index.js'
 import '../RulesDialog/styles.css'
 import './styles.css'
 
@@ -215,20 +214,16 @@ export const App: React.FC = () => {
         <main className='app-main' aria-label='Draft and solution layout'>
           <DraftPanel
             draft={draft}
-            selectedChallengeIndex={selectedChallengeIndex}
             onSolve={handleSolve}
-            onSelectChallenge={handleSelectChallenge}
             onRandomDraft={handleRandomDraft}
             onReset={handleReset}
+            onAddUnit={handleAddUnit}
+            onRemoveUnit={handleRemoveUnit}
+            selectedChallengeIndex={selectedChallengeIndex}
+            onSelectChallenge={handleSelectChallenge}
           />
 
           <SolutionPanel solution={solution} error={error} />
-
-          <UnitSelectorPanel
-            draft={draft}
-            onAddUnit={handleAddUnit}
-            onRemoveUnit={handleRemoveUnit}
-          />
         </main>
       </div>
       {rulesDialog}

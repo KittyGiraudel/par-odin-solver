@@ -28,7 +28,7 @@ export const UnitGrid: React.FC<UnitGridProps> = ({
 
         return (
           <UnitTile
-            key={type + '-' + index}
+            key={`${type}-${index.toString()}`}
             unit={unitMeta}
             count={count}
             onAdd={canAdd && onAddUnit ? () => onAddUnit?.(type) : undefined}
