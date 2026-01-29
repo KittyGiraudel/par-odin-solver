@@ -46,15 +46,15 @@ export const UnitTag: React.FC<UnitTagProps & ComponentProps<'span'>> = ({
   withEmoji = true,
   ...props
 }) => {
-  const typeClass = color === 'WHITE' ? 'unit-tag--white' : 'unit-tag--black'
+  const typeClass = color === 'WHITE' ? 'UnitTag--white' : 'UnitTag--black'
   const emoji = getUnitEmoji(unit)
 
   return (
     <span
       {...props}
-      className={`${props.className ?? ''} unit-tag ${typeClass} unit-color--${unit}`}
+      className={`${props.className ?? ''} UnitTag ${typeClass} UnitTag--${unit}`}
     >
-      {withEmoji && emoji && <span className='unit-tag-emoji'>{emoji}</span>}
+      {withEmoji && emoji && <span className='UnitTag__emoji'>{emoji}</span>}
       <span>{unit}</span>
     </span>
   )

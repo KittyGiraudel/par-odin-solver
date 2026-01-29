@@ -7,9 +7,9 @@ import './styles.css'
 export interface UnitTileProps {
   unit: UnitMeta
   count: number
+  score?: number
   onAdd?: () => void
   onRemove?: () => void
-  score?: number
 }
 
 export const UnitTile: React.FC<UnitTileProps> = ({
@@ -28,11 +28,13 @@ export const UnitTile: React.FC<UnitTileProps> = ({
     <div className='unit-tile-wrapper'>
       <div className={`unit-tile ${toneClass} unit-color--${unit.id}`}>
         <UnitTag unit={unit.id} color={unit.color} withEmoji={false} />
+
         {emoji && (
           <span className='unit-tile-emoji' aria-hidden='true'>
             {emoji}
           </span>
         )}
+
         {withControls && (
           <div className='unit-tile-controls'>
             <button
@@ -58,6 +60,7 @@ export const UnitTile: React.FC<UnitTileProps> = ({
             </button>
           </div>
         )}
+
         {score !== undefined && (
           <span className='unit-tile-score'>{score}</span>
         )}

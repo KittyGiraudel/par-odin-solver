@@ -9,13 +9,13 @@ export const Section: React.FC<
   }> &
     ComponentProps<'section'>
 > = ({ children, title, subtitle, actions, ...props }) => (
-  <section {...props} className={`section ${props.className ?? ''}`}>
-    <div className='section-header'>
-      <div className='section-header-content'>
-        {title && <h2 className='section-title'>{title}</h2>}
-        {subtitle && <p className='section-subtitle'>{subtitle}</p>}
+  <section {...props} className={`Section ${props.className ?? ''}`}>
+    <div className='Section__header'>
+      <div className='Section__header-content'>
+        {title && <h2 className='Section__title'>{title}</h2>}
+        {subtitle && <p className='Section__subtitle'>{subtitle}</p>}
       </div>
-      <div className='section-header-actions'>{actions}</div>
+      <div className='Section__header-actions'>{actions}</div>
     </div>
     {children}
   </section>

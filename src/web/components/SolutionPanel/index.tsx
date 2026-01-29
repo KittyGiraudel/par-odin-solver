@@ -47,15 +47,15 @@ export const SolutionPanel: React.FC<SolutionPanelProps> = ({
       }
     >
       {error ? (
-        <div className='solution-panel-error'>
-          <div className='solution-panel-error-icon' aria-hidden='true'>
+        <div className='SolutionPanel__error'>
+          <div className='SolutionPanel__error-icon' aria-hidden='true'>
             ⚠️
           </div>
-          <div className='solution-panel-error-body'>
-            <p className='solution-panel-error-title'>
+          <div className='SolutionPanel__error-body'>
+            <p className='SolutionPanel__error-title'>
               No balanced split for this draft.
             </p>
-            <p className='solution-panel-error-text'>
+            <p className='SolutionPanel__error-text'>
               There appears to be no solution for the given draft. Try tweaking
               the units or loading a different challenge.
             </p>
@@ -63,7 +63,7 @@ export const SolutionPanel: React.FC<SolutionPanelProps> = ({
         </div>
       ) : !solution ? null : (
         <>
-          <div className='solution-panel-grid'>
+          <div className='SolutionPanel__grid'>
             <SolutionColumn
               title='Army A'
               units={solution.armyA}
@@ -77,11 +77,11 @@ export const SolutionPanel: React.FC<SolutionPanelProps> = ({
           </div>
 
           {sharedNeutrals.length > 0 && (
-            <div className='solution-panel-shared'>
-              <span className='solution-panel-shared-label'>
+            <div className='SolutionPanel__shared'>
+              <span className='SolutionPanel__shared-label'>
                 Shared neutrals
               </span>
-              <div className='solution-panel-shared-tags'>
+              <div className='SolutionPanel__shared-tags'>
                 {sharedNeutrals.map(unit => (
                   <UnitTag key={unit} unit={unit} color='BLACK' />
                 ))}

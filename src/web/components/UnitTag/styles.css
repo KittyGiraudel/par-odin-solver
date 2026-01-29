@@ -1,4 +1,4 @@
-.unit-tag {
+.UnitTag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -9,17 +9,17 @@
   letter-spacing: 0.03em;
 }
 
-.unit-tag-emoji {
+.UnitTag__emoji {
   margin-right: 0.25rem;
 }
 
-.unit-tag--white {
+.UnitTag--white {
   background: #f9fafb;
   color: var(--unit-accent, #111827);
   border: 1px solid rgb(0 0 0 / 0.15);
 }
 
-.unit-tag--black {
+.UnitTag--black {
   background: var(--unit-accent, #111827);
   color: #f9fafb;
   border: 1px solid rgb(0 0 0 / 0.2);

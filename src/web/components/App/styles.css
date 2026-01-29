@@ -1,25 +1,22 @@
-.app-root {
+.App {
   min-height: 100vh;
   max-width: 960px;
   margin: 0 auto;
   padding: 2.5rem 2rem 2rem;
   width: 100%;
-}
-
-.app-main {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
 @media (max-width: 960px) {
-  .app-root {
+  .App {
     padding: 1.5rem 1rem;
   }
 }
 
 @media (max-width: 640px) {
-  .app-root {
+  .App {
     padding: 1rem 0.75rem 1.5rem;
   }
 }

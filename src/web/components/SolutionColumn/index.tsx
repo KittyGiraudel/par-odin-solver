@@ -1,9 +1,9 @@
 import type React from 'react'
+import type { CSSProperties } from 'react'
 import { UNIT_METADATA } from '../App/index.js'
 import type { SolvedUnit } from '../SolutionPanel'
 import { UnitTile } from '../UnitTile'
 import './styles.css'
-import type { CSSProperties } from 'react'
 
 export interface SolutionColumnProps {
   title: string
@@ -17,17 +17,17 @@ export const SolutionColumn: React.FC<SolutionColumnProps> = ({
   total,
 }) => {
   return (
-    <div className='solution-column'>
-      <div className='solution-header'>
-        <h3 className='solution-title'>{title}</h3>
-        <span className='solution-total'>Total: {total}</span>
+    <div className='SolutionColumn'>
+      <div className='SolutionColumn__header'>
+        <h3 className='SolutionColumn__title'>{title}</h3>
+        <span className='SolutionColumn__total'>Total: {total}</span>
       </div>
 
       {units.length === 0 ? (
-        <p className='solution-empty'>Empty army.</p>
+        <p className='SolutionColumn__empty'>Empty army.</p>
       ) : (
         <div
-          className='unit-grid solution-list'
+          className='UnitGrid SolutionColumn__list'
           style={
             {
               '--columns-xl': 2,

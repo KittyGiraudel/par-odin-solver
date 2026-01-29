@@ -2,6 +2,7 @@ import type React from 'react'
 import type { useA11yDialog } from 'react-a11y-dialog'
 import { UNIT_TYPES } from '../../../solver/constants.js'
 import type { UnitType } from '../../../solver/types.js'
+import { Dialog } from '../Dialog/index.js'
 import { getUnitEmoji } from '../UnitTag'
 import './styles.css'
 
@@ -55,63 +56,48 @@ export const RulesDialog: React.FC<{ attrs: A11yDialogAttrs }> = ({
   attrs,
 }) => {
   return (
-    <div {...attrs.container} className='rules-dialog__container'>
-      <div {...attrs.overlay} className='rules-dialog__overlay' />
-      <div {...attrs.dialog} className='rules-dialog__dialog'>
-        <h1 {...attrs.title} className='rules-dialog__title'>
-          How to play Par Odin!
-        </h1>
-        <button {...attrs.closeButton} className='rules-dialog__close'>
-          ×
-        </button>
-        <div className='rules-dialog__body'>
-          <section className='rules-dialog__section'>
-            <h2 className='rules-dialog__heading'>Goal of the game</h2>
-            <p className='rules-dialog__text'>
-              In <span className='rules-dialog__em'>Par Odin!</span>,
-              you&apos;re given a draft of units (white and black) and must
-              split them into two armies whose total values are equal. Each unit
-              has its own scoring rule, and some units interact with others in
-              tricky ways.
-            </p>
-            <p className='rules-dialog__text'>
-              White units have fixed or synergy-based values, black units react
-              to the white side, and special neutral units can appear on both
-              armies at once and tweak duplicate white units.
-            </p>
-          </section>
+    <Dialog attrs={attrs} title='How to play Par Odin!'>
+      <section className='RulesDialog__section'>
+        <h2 className='RulesDialog__heading'>Goal of the game</h2>
+        <p className='RulesDialog__text'>
+          In <span className='RulesDialog__em'>Par Odin!</span>, you&apos;re
+          given a draft of units (white and black) and must split them into two
+          armies whose total values are equal. Each unit has its own scoring
+          rule, and some units interact with others in tricky ways.
+        </p>
+        <p className='RulesDialog__text'>
+          White units have fixed or synergy-based values, black units react to
+          the white side, and special neutral units can appear on both armies at
+          once and tweak duplicate white units.
+        </p>
+      </section>
 
-          <section className='rules-dialog__section'>
-            <h2 className='rules-dialog__heading'>Unit overview</h2>
-            <p className='rules-dialog__text'>
-              Here is a quick description of each unit. The solver uses these
-              rules when it builds the two balanced armies.
-            </p>
+      <section className='RulesDialog__section'>
+        <h2 className='RulesDialog__heading'>Unit overview</h2>
+        <p className='RulesDialog__text'>
+          Here is a quick description of each unit. The solver uses these rules
+          when it builds the two balanced armies.
+        </p>
 
-            <div className='rules-dialog__unit-grid'>
-              {ALL_UNITS.map(unit => {
-                const emoji = getUnitEmoji(unit)
-                const description = describeUnit(unit)
+        <div className='RulesDialog__unit-grid'>
+          {ALL_UNITS.map(unit => {
+            const emoji = getUnitEmoji(unit)
+            const description = describeUnit(unit)
 
-                return (
-                  <article key={unit} className='rules-dialog__unit-card'>
-                    <div className='rules-dialog__unit-header'>
-                      <span
-                        className='rules-dialog__unit-emoji'
-                        aria-hidden='true'
-                      >
-                        {emoji}
-                      </span>
-                      <h3 className='rules-dialog__unit-name'>{unit}</h3>
-                    </div>
-                    <p className='rules-dialog__unit-text'>{description}</p>
-                  </article>
-                )
-              })}
-            </div>
-          </section>
+            return (
+              <article key={unit} className='RulesDialog__unit-card'>
+                <div className='RulesDialog__unit-header'>
+                  <span className='RulesDialog__unit-emoji' aria-hidden='true'>
+                    {emoji}
+                  </span>
+                  <h3 className='RulesDialog__unit-name'>{unit}</h3>
+                </div>
+                <p className='RulesDialog__unit-text'>{description}</p>
+              </article>
+            )
+          })}
         </div>
-      </div>
-    </div>
+      </section>
+    </Dialog>
   )
 }

@@ -7,14 +7,14 @@ export interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenRules }) => {
   return (
-    <header className='header'>
-      <div className='header-inner'>
-        <h1 className='header-title'>
-          🎲 <span className='header-title-em'>Par Odin!</span> Solver
+    <header className='Header'>
+      <div className='Header__inner'>
+        <h1 className='Header__title'>
+          🎲 <span className='Header__title-em'>Par Odin!</span> Solver
         </h1>
         <button
           type='button'
-          className='header-rules-button'
+          className='Header__rules-button'
           onClick={onOpenRules}
         >
           Learn the rules

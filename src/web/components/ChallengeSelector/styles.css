@@ -1,0 +1,12 @@
+.ChallengeSelector__label {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.ChallengeSelector__select {
+  background: #ffffff;
+  color: #111827;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  padding: 0.35rem 0.75rem;
+}

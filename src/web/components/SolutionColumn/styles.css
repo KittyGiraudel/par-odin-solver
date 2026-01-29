@@ -1,4 +1,4 @@
-.solution-column {
+.SolutionColumn {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -6,28 +6,25 @@
   container-type: inline-size;
 }
 
-.solution-header {
+.SolutionColumn__header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 0.5rem;
 }
 
-.solution-title {
+.SolutionColumn__title {
   margin: 0;
   font-size: 0.95rem;
 }
 
-.solution-total {
+.SolutionColumn__total {
   font-size: 0.85rem;
   color: #9ca3af;
 }
 
-.solution-empty {
+.SolutionColumn__empty {
   margin: 0;
   color: #6b7280;
   font-size: 0.9rem;
-}
-
-.solution-list {
 }

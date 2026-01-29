@@ -1,4 +1,4 @@
-.section {
+.Section {
   background-color: white;
   border-radius: 0.75rem;
   padding: 1.25rem;
@@ -7,32 +7,32 @@
   container-type: inline-size;
 }
 
-.section-title {
+.Section__title {
   margin-top: 0;
   margin-bottom: 0.75rem;
 }
 
-.section-subtitle {
+.Section__subtitle {
   margin-top: -0.25rem;
   color: #4b5563;
   font-size: 0.95rem;
 }
 
-.section-subtitle:last-child {
+.Section__subtitle:last-child {
   margin-bottom: 0;
 }
 
-.section-header {
+.Section__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
 
-.section-header-content {
+.Section__header-content {
   flex: 1;
 }
 
-.section-header-actions {
+.Section__header-actions {
   margin-left: auto;
 }

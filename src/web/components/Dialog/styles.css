@@ -1,0 +1,90 @@
+/**
+ * 1. Make the dialog container, and its child overlay spread across
+ *    the entire window.
+ */
+.Dialog__container,
+.Dialog__overlay {
+   position: fixed; /* 1 */
+   inset: 0; /* 1 */
+ }
+ 
+/**
+ * 1. Make sure the dialog container and all its descendants sits on
+ *    top of the rest of the page.
+ * 2. Make the dialog container a flex container to easily center the
+ *    dialog.
+ * 3. Disable pointer events on container so clicks pass through to overlay.
+ */
+.Dialog__container {
+  z-index: 50; /* 1 */
+  display: flex; /* 2 */
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  pointer-events: none; /* 3 */
+}
+ 
+/**
+ * 1. Make sure the dialog container and all its descendants are not
+ *    visible and not focusable when it is hidden.
+ */
+.Dialog__container[aria-hidden='true'] {
+  display: none; /* 1 */
+}
+ 
+/**
+ * 1. Make the overlay look like an overlay.
+ */
+.Dialog__overlay {
+  background-color: rgba(15, 23, 42, 0.65); /* 1 */
+  z-index: 1;
+}
+
+/**
+ * 1. Vertically and horizontally center the dialog in the page.
+ * 2. Make sure the dialog sits on top of the overlay.
+ * 3. Make sure the dialog has an opaque background.
+ * 4. Re-enable pointer events on the dialog itself.
+ */
+.Dialog__dialog {
+  margin: auto; /* 1 */
+  z-index: 2; /* 2 */
+  position: relative; /* 2 */
+  max-width: 960px;
+  width: 100%;
+  max-height: calc(100vh - 4rem);
+  overflow: auto;
+  border-radius: 1rem;
+  background: #f9fafb; /* 3 */
+  color: #020617;
+  box-shadow:
+    0 20px 25px -5px rgba(15, 23, 42, 0.25),
+    0 8px 10px -6px rgba(15, 23, 42, 0.2);
+  padding: 1.75rem 1.75rem 1.5rem;
+  pointer-events: auto; /* 4 */
+}
+ 
+.Dialog__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+}
+
+.Dialog__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+
+.Dialog__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  padding: 0.2rem 0.5rem;
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 0.85rem;
+}

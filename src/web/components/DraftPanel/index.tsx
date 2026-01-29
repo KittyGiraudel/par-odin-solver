@@ -1,52 +1,56 @@
-import { type CSSProperties, useMemo } from 'react'
+import { type CSSProperties, useCallback, useMemo } from 'react'
+import { CHALLENGES } from '../../../solver/constants'
 import type { UnitType } from '../../../solver/types'
 import { countByUnit } from '../../helpers/countByUnit'
 import { SINGLETON_UNITS, UNIT_METADATA } from '../App'
 import { Section } from '../Section'
 import { UnitTile } from '../UnitTile'
 import './styles.css'
-import { CHALLENGES } from '../../../solver/constants'
+import { ChallengeSelector } from '../ChallengeSelector'
 
 export interface UnitSelectorProps {
-  onAddUnit: (unit: UnitType) => void
-  onRemoveUnit: (unit: UnitType) => void
   draft: UnitType[]
-  selectedChallengeIndex: number | ''
-  onReset: () => void
+  onAddUnit: (unit: UnitType) => void
   onRandomDraft: () => void
-  onSolve: () => void
+  onRemoveUnit: (unit: UnitType) => void
+  onReset: () => void
   onSelectChallenge: (value: string) => void
+  onSolve: () => void
+  selectedChallengeIndex: number | ''
 }
 
 export const DraftPanel: React.FC<UnitSelectorProps> = ({
-  onSolve,
-  onAddUnit,
-  onRemoveUnit,
   draft,
-  onReset,
+  onAddUnit,
   onRandomDraft,
-  selectedChallengeIndex,
+  onRemoveUnit,
+  onReset,
   onSelectChallenge,
+  onSolve,
+  selectedChallengeIndex,
 }) => {
   const countsByUnit = useMemo(() => countByUnit(draft), [draft])
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onSelectChallenge(event.target.value)
-  }
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) =>
+      onSelectChallenge(event.target.value),
+    [onSelectChallenge]
+  )
+
   return (
     <Section
-      aria-label='Unit Selector'
+      aria-label='Choose your units'
       title='Choose your units'
       subtitle='Use the controls to compose a draft, then let the solver split it into two armies.'
       actions={
         draft.length > 0 ? (
-          <button type='button' onClick={onReset} className='draft-reset'>
+          <button type='button' onClick={onReset} className='DraftPanel__reset'>
             Reset draft
           </button>
         ) : (
           <button
             type='button'
             onClick={onRandomDraft}
-            className='draft-random'
+            className='DraftPanel__random'
           >
             Random draft
           </button>
@@ -54,24 +58,10 @@ export const DraftPanel: React.FC<UnitSelectorProps> = ({
       }
     >
       {draft.length === 0 ? (
-        <div className='draft-controls'>
-          <label htmlFor='draft-challenge' className='draft-label'>
-            Start from:
-          </label>
-          <select
-            id='draft-challenge'
-            value={String(selectedChallengeIndex)}
-            onChange={handleChange}
-            className='draft-select'
-          >
-            <option value=''>Custom draft</option>
-            {CHALLENGES.map((challenge, index) => (
-              <option key={challenge.join('-') || index} value={index}>
-                Challenge #{index + 1} ({challenge.length} units)
-              </option>
-            ))}
-          </select>
-        </div>
+        <ChallengeSelector
+          selectedChallengeIndex={selectedChallengeIndex}
+          onSelectChallenge={onSelectChallenge}
+        />
       ) : null}
 
       <div
@@ -85,8 +75,7 @@ export const DraftPanel: React.FC<UnitSelectorProps> = ({
       >
         {UNIT_METADATA.map(meta => {
           const count = countsByUnit[meta.id] ?? 0
-          const isSingleton = SINGLETON_UNITS.includes(meta.id)
-          const canAdd = !(isSingleton && count >= 1)
+          const canAdd = !(SINGLETON_UNITS.includes(meta.id) && count >= 1)
 
           return (
             <UnitTile
@@ -110,7 +99,7 @@ export const DraftPanel: React.FC<UnitSelectorProps> = ({
         type='button'
         onClick={onSolve}
         disabled={draft.length < 2}
-        className='draft-solve'
+        className='DraftPanel__solve'
       >
         {draft.length >= 2 ? 'Solve draft' : 'Add more units to solve'}
       </button>

@@ -19,7 +19,7 @@ export const UnitGrid: React.FC<UnitGridProps> = ({
 }) => {
   const countsByUnit = useMemo(() => countByUnit(units), [units])
   return (
-    <div className='unit-grid'>
+    <div className='UnitGrid'>
       {units.map((type, index) => {
         const unitMeta = UNIT_METADATA.find(meta => meta.id === type)!
         const count = countsByUnit[type] ?? 0

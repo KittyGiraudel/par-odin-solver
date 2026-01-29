@@ -210,22 +210,21 @@ export const App: React.FC = () => {
     <>
       <Header onOpenRules={() => rulesDialogInstance?.show()} />
 
-      <div className='app-root'>
-        <main className='app-main' aria-label='Draft and solution layout'>
-          <DraftPanel
-            draft={draft}
-            onSolve={handleSolve}
-            onRandomDraft={handleRandomDraft}
-            onReset={handleReset}
-            onAddUnit={handleAddUnit}
-            onRemoveUnit={handleRemoveUnit}
-            selectedChallengeIndex={selectedChallengeIndex}
-            onSelectChallenge={handleSelectChallenge}
-          />
+      <main className='App'>
+        <DraftPanel
+          draft={draft}
+          onSolve={handleSolve}
+          onRandomDraft={handleRandomDraft}
+          onReset={handleReset}
+          onAddUnit={handleAddUnit}
+          onRemoveUnit={handleRemoveUnit}
+          selectedChallengeIndex={selectedChallengeIndex}
+          onSelectChallenge={handleSelectChallenge}
+        />
 
-          <SolutionPanel solution={solution} error={error} />
-        </main>
-      </div>
+        <SolutionPanel solution={solution} error={error} />
+      </main>
+
       {rulesDialog}
     </>
   )

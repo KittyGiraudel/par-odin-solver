@@ -1,162 +1,73 @@
-/**
- * 1. Make the dialog container, and its child overlay spread across
- *    the entire window.
- */
-.rules-dialog__container,
-.rules-dialog__overlay {
-   position: fixed; /* 1 */
-   inset: 0; /* 1 */
- }
-
- /**
- * 1. Make sure the dialog container and all its descendants sits on
- *    top of the rest of the page.
- * 2. Make the dialog container a flex container to easily center the
- *    dialog.
- * 3. Disable pointer events on container so clicks pass through to overlay.
- */
-.rules-dialog__container {
-  z-index: 50; /* 1 */
-  display: flex; /* 2 */
-  align-items: flex-start;
-  justify-content: center;
-  padding: 3rem 1.5rem;
-  pointer-events: none; /* 3 */
-}
-
-/**
- * 1. Make sure the dialog container and all its descendants are not
- *    visible and not focusable when it is hidden.
- */
-.rules-dialog__container[aria-hidden='true'] {
-  display: none; /* 1 */
-}
-
-/**
- * 1. Make the overlay look like an overlay.
- */
-.rules-dialog__overlay {
-  background-color: rgba(15, 23, 42, 0.65); /* 1 */
-  z-index: 1;
-}
-
-/**
- * 1. Vertically and horizontally center the dialog in the page.
- * 2. Make sure the dialog sits on top of the overlay.
- * 3. Make sure the dialog has an opaque background.
- * 4. Re-enable pointer events on the dialog itself.
- */
-.rules-dialog__dialog {
-  margin: auto; /* 1 */
-  z-index: 2; /* 2 */
-  position: relative; /* 2 */
-  max-width: 960px;
-  width: 100%;
-  max-height: calc(100vh - 4rem);
-  overflow: auto;
-  border-radius: 1rem;
-  background: #f9fafb; /* 3 */
-  color: #020617;
-  box-shadow:
-    0 20px 25px -5px rgba(15, 23, 42, 0.25),
-    0 8px 10px -6px rgba(15, 23, 42, 0.2);
-  padding: 1.75rem 1.75rem 1.5rem;
-  pointer-events: auto; /* 4 */
-}
-
-.rules-dialog__title {
-  margin: 0 0 0.75rem;
-  font-size: 1.35rem;
-}
-
-.rules-dialog__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
-}
-
-.rules-dialog__section {
+.RulesDialog__section {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.rules-dialog__heading {
+.RulesDialog__heading {
   margin: 0;
   font-size: 1.1rem;
 }
 
-.rules-dialog__text {
+.RulesDialog__text {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.6;
   color: #111827;
 }
 
-.rules-dialog__em {
+.RulesDialog__em {
   font-style: italic;
 }
 
-.rules-dialog__unit-grid {
+.RulesDialog__unit-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 0.9rem;
 }
 
-.rules-dialog__unit-card {
+.RulesDialog__unit-card {
   border-radius: 0.75rem;
   background: #ffffff;
   border: 1px solid #e5e7eb;
   padding: 0.75rem 0.9rem;
 }
 
-.rules-dialog__unit-header {
+.RulesDialog__unit-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.25rem;
 }
 
-.rules-dialog__unit-emoji {
+.RulesDialog__unit-emoji {
   font-size: 1.5rem;
 }
 
-.rules-dialog__unit-name {
+.RulesDialog__unit-name {
   margin: 0;
   font-size: 0.95rem;
 }
 
-.rules-dialog__unit-text {
+.RulesDialog__unit-text {
   margin: 0;
   font-size: 0.85rem;
   line-height: 1.5;
   color: #374151;
 }
 
-.rules-dialog__close {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.9);
-  padding: 0.2rem 0.5rem;
-  background: rgba(15, 23, 42, 0.95);
-  color: #e5e7eb;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
 
-.rules-dialog__close:focus-visible {
+.RulesDialog__close:focus-visible {
   outline: 2px solid #fbbf24;
   outline-offset: 2px;
 }
 
 @media (max-width: 640px) {
-  .rules-dialog__container {
+  .RulesDialog__container {
     padding-top: 4rem;
   }
 
-  .rules-dialog__dialog {
+  .RulesDialog__dialog {
     max-height: calc(100vh - 3rem);
     padding-inline: 1.25rem;
   }
