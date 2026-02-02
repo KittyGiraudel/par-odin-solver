@@ -31,7 +31,7 @@ export const SolutionColumn: React.FC<SolutionColumnProps> = ({
           style={
             {
               '--columns-xl': 2,
-              '--columns-sm': 1,
+              '--columns-sm': 2,
             } as CSSProperties
           }
         >
